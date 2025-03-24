@@ -5,6 +5,7 @@
         alt="School Logo"
         class="school-logo"
       />
+    <div class="spacer"></div>
     <div v-for="item in items" :key="item.id"
       class="nav-item">
       <v-icon
@@ -49,8 +50,14 @@ export default {
 }
 
 .school-logo {
-  height: 139px;
-  width: 139px;
+  margin: 0 auto;
+  height: 100px;
+  width: 100px;
+}
+
+.spacer {
+  border-bottom: 1px solid $al-gray;
+  margin: 0px 12px;
 }
 
 .nav-item {
