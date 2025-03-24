@@ -1,6 +1,6 @@
-#Alumni Link Portal
+# Alumni Link Portal
 
-#Setup
+# Setup
 
 Yarn is used at the package manager
 
