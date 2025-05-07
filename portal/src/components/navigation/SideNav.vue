@@ -70,8 +70,8 @@ export default {
 
   &:hover {
     color: #275D38;
-    padding-left: 7px;
-    border-left: 3px solid #275D38;
+    padding-left: 6px;
+    border-left: 4px solid #275D38;
     cursor: pointer;
   }
 }
