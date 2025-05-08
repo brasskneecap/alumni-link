@@ -1,22 +1,27 @@
 <template>
   <div class="signin-left">
-    <v-img
-      src="/al-logo.svg"
-      alt="Logo"
-      height="60"
-      width="142"
-      class="ml-4 al-logo-signin"
-    />
-    <div class="filler-container">
+    <div class="al-logo-signin">
       <v-img
-        src="/thinking-graduate.png"
+        src="/al-logo.svg"
         alt="Logo"
-        height="457"
-        width="457"
+        height="60"
+        width="142"
         class="ml-4"
       />
-      <div>3</div>
-      <div>4</div>
+    </div>
+    <div class="left-signin-content">
+      <div class="graphic-container">
+        <v-img
+          src="/thinking-graduate.png"
+          alt="Logo"
+          height="457"
+          width="457"
+        />
+      </div>
+      <div class="graphic-text">
+        <h1>Beyond Graduation</h1>
+        <p>Connect with alumni to prepare for life after graduation.</p>
+      </div>
     </div>
   </div>
 </template>
@@ -34,16 +39,54 @@ const props = defineProps({
 
 .signin-left {
   background-color: #fafafa;
-}
-
-.filler-container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  position: relative;
 }
 
 .al-logo-signin {
   margin-top: 32px;
   margin-left: 32px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.left-signin-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.graphic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.graphic-text {
+  text-align: center;
+
+  h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1.38rem;
+  }
+
+  p {
+    font-size: 1.25rem;
+  }
 }
 </style>
