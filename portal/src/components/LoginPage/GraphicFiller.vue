@@ -34,7 +34,7 @@ const props = defineProps({
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@/variables.scss' as *;
 
 .signin-left {
