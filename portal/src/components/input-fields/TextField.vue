@@ -1,8 +1,8 @@
 <template>
   <v-container>
     <v-text-field
-      label="Email"
-      placeholder="Enter your email address"
+      :label="label"
+      :placeholder="placeholder"
       :persistent-placeholder="true"
       :prepend-inner-icon="icon"
       variant="underlined"
@@ -13,6 +13,10 @@
 <script setup>
 const props = defineProps({
   label: {
+    type: String,
+    required: true,
+  },
+  placeholder: {
     type: String,
     required: true,
   },
