@@ -14,7 +14,11 @@
       icon="mdi-lock-outline"
     />
     <div class="signin-functions">
-      <v-checkbox label="Remember Me" density="compact" class="signin-checkbox"></v-checkbox>
+      <v-checkbox 
+        label="Remember Me"
+        density="compact" 
+        class="signin-checkbox">
+      </v-checkbox>
       <a href="#">Forgot Password?</a>
     </div>
     <v-btn rounded="xl" size="x-large" class=" login-btn text-subtitle-1 font-weight-medium">Login</v-btn>
@@ -59,6 +63,7 @@ import TextField from '../input-fields/TextField.vue';
     a {
       padding: 0;
       margin: 0;
+      color: black;
     }
   }
 
