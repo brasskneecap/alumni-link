@@ -1,24 +1,25 @@
 <template>
   <div class="signin-container">
     <h3>Sign in</h3>
-    <TextField 
+    <TextField
+      v-model="email" 
       class="email-field"
       label="Email"
       placeholder="Enter your email address"
       icon="mdi-email-outline"
     />
-    <PasswordField 
+    <PasswordField
+      v-model="password"
       class="password-field"
       label="Password"
       placeholder="Enter your password"
       icon="mdi-lock-outline"
     />
     <div class="signin-functions">
-      <v-checkbox 
+      <v-checkbox        
         label="Remember Me"
         density="compact"
         :ripple="false"
-        :hover="none"
         class="signin-checkbox">
       </v-checkbox>
       <a 
@@ -27,14 +28,30 @@
     </div>
     <v-btn 
       rounded="xl"
-      class=" login-btn text-subtitle-1 font-weight-medium">Login</v-btn>
+      class=" login-btn text-subtitle-1 font-weight-medium"
+      @click="handleLogin()">Login</v-btn>
   </div>
 </template>
 
 <script setup>
 import TextField from '../input-fields/TextField.vue';
 import PasswordField from '../input-fields/PasswordField.vue';
-</script>   
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const email = ref('')
+const password = ref('')
+
+function handleLogin() {
+  const credentials = {
+    email: email.value,
+    password: password.value
+  }
+  store.dispatch('user/login', credentials)
+}
+</script>
 
 <style lang="scss">
 @use '@/variables.scss' as *;
