@@ -1,13 +1,29 @@
 <template>
   <v-app class="app-main">
-    <LoginPage />
+    <LoginPage v-if="!loggedIn"/>
+    <LandingPage v-else></LandingPage>
   </v-app>
 </template>
 
 
-<script setup>
-  // import LandingPage from './components/LandingPage.vue'
+<script>
+  import LandingPage from './components/LandingPage.vue'
   import LoginPage from './components/LoginPage/LoginPage.vue'
+  import { computed } from 'vue'
+  import { useStore } from 'vuex'
+  
+  export default {
+    components: { LoginPage, LandingPage },
+    setup () {
+      const store = useStore()
+      const loggedIn = computed(() => store.getters["user/loggedIn"]);
+      console.log("Logged In:", loggedIn.value);
+      return {
+        // access a getter in computed function
+        loggedIn,
+      }
+    }
+}
 </script>
 
 
