@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.6",
     "@mdi/font": "^7.4.47",
     "axios": "^1.9.0",
     "vite-plugin-vuetify": "^2.1.0",
