@@ -7,7 +7,7 @@
       placeholder="Enter your email address"
       icon="mdi-email-outline"
     />
-    <TextField 
+    <PasswordField 
       class="password-field"
       label="Password"
       placeholder="Enter your password"
@@ -16,17 +16,24 @@
     <div class="signin-functions">
       <v-checkbox 
         label="Remember Me"
-        density="compact" 
+        density="compact"
+        :ripple="false"
+        :hover="none"
         class="signin-checkbox">
       </v-checkbox>
-      <a href="#">Forgot Password?</a>
+      <a 
+        href="#" 
+        class="pw-forgot">Forgot Password?</a>
     </div>
-    <v-btn rounded="xl" size="x-large" class=" login-btn text-subtitle-1 font-weight-medium">Login</v-btn>
+    <v-btn 
+      rounded="xl"
+      class=" login-btn text-subtitle-1 font-weight-medium">Login</v-btn>
   </div>
 </template>
 
 <script setup>
 import TextField from '../input-fields/TextField.vue';
+import PasswordField from '../input-fields/PasswordField.vue';
 </script>   
 
 <style lang="scss">
@@ -58,6 +65,7 @@ import TextField from '../input-fields/TextField.vue';
       display: flex;
       margin: 0;
       padding: 0;
+      font-weight: 300;
     }
 
     a {
@@ -67,11 +75,19 @@ import TextField from '../input-fields/TextField.vue';
     }
   }
 
+  .pw-forgot {
+    font-size: 12px;
+    font-weight: 300;
+  }
+
   .login-btn {
     width: 26.8rem;
     background-color: black;
     color: white;
+    font-size: 17px !important;
+    height: 53px !important;
     margin-top: 3.75rem;
   }
+
 }
 </style>
