@@ -28,6 +28,10 @@ var mockUser = User{
 }
 
 func RegisterUserRoutes(router *mux.Router) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("USER ENDPOINT"))
+	})
 	router.HandleFunc("/login", GetUserWithCredentials).Methods("POST", "OPTIONS")
 }
 

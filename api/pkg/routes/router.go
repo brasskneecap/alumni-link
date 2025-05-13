@@ -14,6 +14,10 @@ func SetupRouter() *mux.Router {
 	userRouter := router.PathPrefix("/user").Subrouter()
 	handlers.RegisterUserRoutes(userRouter)
 
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Hello World"))
+	})
 	// Health Check
 	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
