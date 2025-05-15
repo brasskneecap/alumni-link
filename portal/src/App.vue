@@ -1,7 +1,7 @@
 <template>
   <v-app class="app-main">
-    <LoginPage v-if="!loggedIn"/>
-    <LandingPage v-else></LandingPage>
+    <!-- <LoginPage v-if="!loggedIn"/> -->
+    <LandingPage></LandingPage>
   </v-app>
 </template>
 

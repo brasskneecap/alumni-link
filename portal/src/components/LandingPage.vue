@@ -1,13 +1,14 @@
 <template>
-  <TopNav></TopNav>
   <div class="main">
     <SideNav></SideNav>
+    <Dashboard></Dashboard>
   </div>
 </template>
 
 <script setup>
-  import TopNav from './navigation/TopNav.vue'
   import SideNav from './navigation/SideNav.vue'
+  import dashboard from './Dashboard/dashboard.vue';
+import Dashboard from './Dashboard/dashboard.vue';
 </script>
 
 
@@ -16,8 +17,6 @@
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: black;
+  background-color: #F9FAFB;
 }
-
-
 </style>
