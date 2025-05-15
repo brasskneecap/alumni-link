@@ -58,7 +58,7 @@ export default {
   justify-content: center;
   padding: 1.25rem 0;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 500;
 
   .nav-icon {
     margin: 0;

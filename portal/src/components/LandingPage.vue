@@ -1,5 +1,4 @@
 <template>
-  <TopNav></TopNav>
   <div class="main">
     <SideNav></SideNav>
   </div>
@@ -16,7 +15,7 @@
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: black;
+  background-color: #F9FAFB;
 }
 
 
