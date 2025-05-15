@@ -1,12 +1,14 @@
 <template>
   <div class="main">
     <SideNav></SideNav>
+    <Dashboard></Dashboard>
   </div>
 </template>
 
 <script setup>
-  import TopNav from './navigation/TopNav.vue'
   import SideNav from './navigation/SideNav.vue'
+  import dashboard from './Dashboard/dashboard.vue';
+import Dashboard from './Dashboard/dashboard.vue';
 </script>
 
 
@@ -17,6 +19,4 @@
   height: 100vh;
   background-color: #F9FAFB;
 }
-
-
 </style>
