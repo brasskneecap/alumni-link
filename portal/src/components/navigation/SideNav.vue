@@ -1,5 +1,14 @@
 <template>
   <div class="side-nav">
+      <div class="nav-logo-container">
+        <v-img
+        src="/al-logo.svg"
+        alt="Logo"
+        max-height="45"
+        max-width="108"
+        class="nav-logo"
+      />
+  </div>
     <div class="nav-container">
       <div v-for="item in items" :key="item.id"
         class="nav-item">
@@ -38,17 +47,26 @@ export default {
 <style lang="scss">
 @use '@/variables.scss' as *;
 
-.side-nav {
+
+
+.nav-logo-container {
+  display: flex;
+  flex-direction: column;
+  height: 87px;
+
+  .nav-logo {
+    margin: 1.25rem 0 1.25rem 0.25rem;
+  }
+}
+
+
+.nav-container {
   height: calc(100% - 87px);
-  margin-top: 87px;
+  padding-top: 1.5rem;
   width: 7.25rem !important;
   background-color: $al-primary-neutral;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.12);
   box-shadow: 0px 0px 10px 0px color(display-p3 0 0 0 / 0.12);
-}
-
-.nav-container {
-  margin-top: 1.25rem;
 }
 
 .nav-item {
@@ -56,7 +74,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem 0;
+  padding: 1rem 0;
   font-size: 14px;
   font-weight: 500;
 

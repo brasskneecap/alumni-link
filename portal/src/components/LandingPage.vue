@@ -7,8 +7,7 @@
 
 <script setup>
   import SideNav from './navigation/SideNav.vue'
-  import dashboard from './Dashboard/dashboard.vue';
-import Dashboard from './Dashboard/dashboard.vue';
+  import Dashboard from './Dashboard/dashboard.vue';
 </script>
 
 
