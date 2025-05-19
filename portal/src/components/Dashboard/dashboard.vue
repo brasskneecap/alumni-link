@@ -50,18 +50,63 @@
 <style lang="scss">
 @use '@/variables.scss' as *;
 
-.welcome-container {
+.topbar-container {
 
-  margin: 1.88rem 0 0 5rem;
-  
-  h2 {
-    font-size: 48px;
-    font-weight: 300;
+    .welcome-container {
+    margin: 1.88rem 0 0 5rem;
+    
+    h2 {
+      font-size: 48px;
+      font-weight: 300;
+    }
+
+    p {
+      font-size: 20px;
+      font-weight: 300;
+    }
+  }
+}
+
+.tracker-container {
+  display: flex;
+  margin: 2.62rem 0 0 5rem;
+  gap: 3.75rem;
+
+  .this-week-container {
+    width: 15.25rem;
+    height: 12.5rem;
+    background-color: purple;
   }
 
-  p {
-    font-size: 20px;
-    font-weight: 300;
+  .completed-container {
+    width: 15.25rem;
+    height: 12.5rem;
+    background-color: lightblue;
+  }
+
+  .team-container {
+    width: 25rem;
+    height: 12.5rem;
+    background-color: aquamarine;
+  }
+}
+
+.upcoming-container {
+  width: 63rem;
+  height: 40.625rem;
+  background-color: lightcoral;
+  margin: 2.66rem 0 0 5rem;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+
+  .calendar-container {
+    width: 25rem;
+    height: 19.8125rem;
+    background-color: lightgreen;
+
   }
 }
 
