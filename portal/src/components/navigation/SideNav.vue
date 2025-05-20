@@ -11,7 +11,7 @@
   </div>
     <div class="nav-container">
       <div v-for="item in items" :key="item.id">
-        <router-link
+        <RouterLink
           :to="item.page"
           class="nav-item"
           active-class="nav-item-active"
@@ -23,7 +23,7 @@
               end
             ></v-icon>
             <span>{{item.name}}</span>
-        </router-link>
+        </RouterLink>
       </div>
     </div>
   </div>

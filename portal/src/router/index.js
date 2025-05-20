@@ -17,7 +17,6 @@ const routes = [
 ]
 
 const router = createRouter({
-  linkActiveClass: 'border-indigo-100',
   history: createWebHashHistory(),
   routes,
 })
