@@ -10,15 +10,20 @@
       />
   </div>
     <div class="nav-container">
-      <div v-for="item in items" :key="item.id"
-        class="nav-item">
-        <v-icon
-          :icon="item.icon"
-          size="40"
-          class="nav-icon"
-          end
-        ></v-icon>
-        <span>{{item.name}}</span>
+      <div v-for="item in items" :key="item.id">
+        <RouterLink
+          :to="item.page"
+          class="nav-item"
+          active-class="nav-item-active"
+          >
+            <v-icon
+              :icon="item.icon"
+              size="40"
+              class="nav-icon"
+              end
+            ></v-icon>
+            <span>{{item.name}}</span>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -26,15 +31,16 @@
 
 <script>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router';
 export default {
   setup() {
     const items = ref([
-      { id: 1, name: 'Dashboard', icon: 'mdi-view-dashboard-outline' },
-      { id: 2, name: 'Assignments', icon: 'mdi-file-document-multiple-outline' },
-      { id: 3, name: 'Calendar', icon: 'mdi-calendar-month-outline' },
-      { id: 4, name: 'Messages', icon: 'mdi-message-text-outline' },
-      { id: 5, name: 'Blast', icon: 'mdi-bullhorn-outline' },
-      { id: 6, name: 'Groups', icon: 'mdi-account-group-outline' },
+      { id: 1, name: 'Dashboard', icon: 'mdi-view-dashboard-outline', page: "/"},
+      { id: 2, name: 'Assignments', icon: 'mdi-file-document-multiple-outline', page: "assignments"},
+      { id: 3, name: 'Calendar', icon: 'mdi-calendar-month-outline', page: "calendar" },
+      { id: 4, name: 'Messages', icon: 'mdi-message-text-outline', page: "messages" },
+      { id: 5, name: 'Blast', icon: 'mdi-bullhorn-outline', page: "blast" },
+      { id: 6, name: 'Groups', icon: 'mdi-account-group-outline', page: "groups" },
     ])
 
     return {
@@ -46,8 +52,6 @@ export default {
 
 <style lang="scss">
 @use '@/variables.scss' as *;
-
-
 
 .nav-logo-container {
   display: flex;
@@ -77,7 +81,7 @@ export default {
   padding: 1rem 0;
   font-size: 14px;
   font-weight: 500;
-
+  color: black;
   .nav-icon {
     margin: 0;
     padding-bottom: 0.6rem;
@@ -86,6 +90,11 @@ export default {
   &:hover {
     cursor: pointer;
     background-color: $al-primary-color;
+    color: black;
   }
+}
+
+.nav-item-active {
+  background-color: $al-primary-color;
 }
 </style>
