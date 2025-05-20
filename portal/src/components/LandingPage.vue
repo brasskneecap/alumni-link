@@ -1,13 +1,12 @@
 <template>
   <div class="main">
     <SideNav></SideNav>
-    <Dashboard></Dashboard>
+    <RouterView />
   </div>
 </template>
 
 <script setup>
   import SideNav from './navigation/SideNav.vue'
-  import Dashboard from './Dashboard/dashboard.vue';
 </script>
 
 
