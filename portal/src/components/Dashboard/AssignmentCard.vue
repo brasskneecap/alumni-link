@@ -62,6 +62,7 @@ defineProps({
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    height: 3rem;
 
   .tracker-icon {
     display: flex;
@@ -80,6 +81,7 @@ defineProps({
     margin-left: clamp(0.5rem, 1vw, 1rem);
     font-size: clamp(14px, 1vw, 20px);
     font-weight: 700;
+    padding-top: .5rem;
   }
 }
 
