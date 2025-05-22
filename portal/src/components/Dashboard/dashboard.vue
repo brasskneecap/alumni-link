@@ -14,11 +14,19 @@
 
     <!-- assignments and team list -->
     <div class="tracker-container">
-      <div class="this-week-container">
-
+      <div class="this-week-container al-card">
+        <AssignmentCard
+          icon="mdi-file-document-multiple-outline"
+          title="This Week"
+          content="1/3"
+        />
       </div>
-      <div class="completed-container">
-
+      <div class="completed-container al-card">
+        <AssignmentCard
+          icon="mdi-file-document-multiple-outline"
+          title="Total Completed"
+          content="8/16"
+        />
       </div>
       <div class="team-container">
 
@@ -44,6 +52,7 @@
 
 <script setup>
 // import { ref } from 'vue'
+import AssignmentCard from './AssignmentCard.vue';
 
 </script>
 
@@ -72,18 +81,11 @@
   margin: 2.62rem 0 0 5rem;
   gap: 3.75rem;
 
-  .this-week-container {
-    width: 15.25rem;
-    height: 12.5rem;
-    background-color: purple;
+  .this-week-container, .completed-container {
+    width: 15vw;
+    height: 19vh;
   }
-
-  .completed-container {
-    width: 15.25rem;
-    height: 12.5rem;
-    background-color: lightblue;
-  }
-
+  
   .team-container {
     width: 25rem;
     height: 12.5rem;
@@ -101,13 +103,6 @@
 .right-container {
   display: flex;
   flex-direction: column;
-
-  .calendar-container {
-    width: 25rem;
-    height: 19.8125rem;
-    background-color: lightgreen;
-
-  }
 }
 
 </style>
