@@ -50,9 +50,7 @@ defineProps({
 @use '@/variables.scss' as *;
 
 .assignments-tracker {
-  padding: 1vh 1vw;
-  width: 15vw;
-  height: 19vh;
+  padding: 0.625rem 0.875rem;
   display: flex;
   flex-direction: column;
 }
@@ -66,20 +64,18 @@ defineProps({
 
   .tracker-icon {
     display: flex;
-    width: clamp(2rem, 2vw, 2.5rem);
-    height: clamp(2rem, 2vw, 2.5rem);
     
     .icon {
       background-color: $al-primary-color;
-      padding: clamp(1.2rem, 1vw, 1.25rem);
+      padding: 1.15rem;
       border-radius: 0.625rem;
       color: $al-primary-blue;
     }
   }
 
   .tracker-title {
-    margin-left: clamp(0.5rem, 1vw, 1rem);
-    font-size: clamp(14px, 1vw, 20px);
+    margin-left: 1rem;
+    font-size: 16px;
     font-weight: 700;
     padding-top: .5rem;
   }
@@ -90,15 +86,15 @@ defineProps({
   margin-bottom: 1rem;
 
   .tracker-content {
-    font-size: clamp(24px, 2vw, 48px);
+    font-size: 32px;
     font-weight: 700;
-    margin-top: clamp(1.5rem, 2.5vh, 2.44rem);
+    margin-top: 2.44rem;
   }
 
   .tracker-subtitle {
-    font-size: clamp(14px, 1vw, 20px);
+    font-size: 16px;
     font-weight: 400;
-    margin-top: clamp(0.25rem, 0.5vh, 0.38rem);
+    margin-top: 0.38rem;
     color: $al-secondary-gray;
   }
 }

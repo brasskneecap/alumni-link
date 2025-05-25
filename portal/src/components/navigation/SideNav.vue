@@ -67,7 +67,8 @@ export default {
 .nav-container {
   height: calc(100% - 87px);
   padding-top: 1.5rem;
-  width: 7.25rem !important;
+  width: 7.25rem !important; 
+  min-height: 69.8125rem;
   background-color: $al-primary-neutral;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.12);
   box-shadow: 0px 0px 10px 0px color(display-p3 0 0 0 / 0.12);
