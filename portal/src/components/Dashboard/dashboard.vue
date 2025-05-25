@@ -1,42 +1,56 @@
 <template>
   <div class="dashboard-container">
 
-    <!-- welcome message, settings, notification -->
-    <div class="topbar-container">
-      <div class="welcome-container">
-        <h2>Welcome Back, name</h2>
-        <p>Take a look at your progress</p>
-      </div>
-      <div class="profile-container">
-
-      </div>
-    </div>
-
-    <!-- assignments and team list -->
-    <div class="tracker-container">
-      <div class="this-week-container">
-
-      </div>
-      <div class="completed-container">
-
-      </div>
-      <div class="team-container">
-
-      </div>
-    </div>
-
-    <!-- upcoming things list -->
-    <div class="upcoming-container">
+    <div class="notif-profile-container">
 
     </div>
 
-    <!-- calendar and blast -->
-    <div class="right-container">
-      <div class="calendar-container">
+    <div class="left-side">
+      <!-- welcome message, settings, notification -->
+      <div class="topbar-container">
+        <div class="welcome-container">
+          <h2>Welcome Back, name</h2>
+          <p>Take a look at your progress</p>
+        </div>
+        <div class="profile-container">
 
+        </div>
       </div>
-      <div class="blast-container">
 
+      <!-- assignments and team list -->
+      <div class="tracker-container">
+        <div class="this-week-container al-card">
+          <AssignmentCard
+            icon="mdi-file-document-multiple-outline"
+            title="This Week"
+            content="1/3"
+          />
+        </div>
+        <div class="completed-container al-card">
+          <AssignmentCard
+            icon="mdi-file-document-multiple-outline"
+            title="Total Completed"
+            content="8/16"
+          />
+        </div>
+        <div class="team-container">
+
+        </div>
+      </div>
+
+      <!-- upcoming things list -->
+      <div class="upcoming-container"></div>
+    </div>
+
+    <div class="right-side">
+      <!-- calendar and blast -->
+      <div class="right-container">
+        <div class="calendar-container">
+
+        </div>
+        <div class="blast-container">
+
+        </div>
       </div>
     </div>
   </div>
@@ -44,11 +58,28 @@
 
 <script setup>
 // import { ref } from 'vue'
+import AssignmentCard from './AssignmentCard.vue';
 
 </script>
 
 <style lang="scss">
 @use '@/variables.scss' as *;
+
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 69.8125rem;
+}
+
+.notif-profile-container {
+  background-color: grey;
+  width: 7rem;
+  height: 3.75rem;
+  position: absolute;
+  right: 0;
+  margin-top: 1.88rem;
+  margin-right: 4.5rem;
+}
 
 .topbar-container {
 
@@ -72,18 +103,11 @@
   margin: 2.62rem 0 0 5rem;
   gap: 3.75rem;
 
-  .this-week-container {
+  .this-week-container, .completed-container {
     width: 15.25rem;
     height: 12.5rem;
-    background-color: purple;
   }
-
-  .completed-container {
-    width: 15.25rem;
-    height: 12.5rem;
-    background-color: lightblue;
-  }
-
+  
   .team-container {
     width: 25rem;
     height: 12.5rem;
@@ -101,12 +125,19 @@
 .right-container {
   display: flex;
   flex-direction: column;
+  margin: 10.90rem 0 0 3.75rem;
+  gap: 2.5rem;
 
   .calendar-container {
+    background-color: lightblue;
     width: 25rem;
     height: 19.8125rem;
-    background-color: lightgreen;
+  }
 
+  .blast-container {
+    background-color: green;
+    width: 25rem;
+    height: 33.3125rem;
   }
 }
 
