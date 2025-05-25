@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"AlumniLink/api/pkg/stores"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
 
+	"cloud.google.com/go/firestore"
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -27,15 +29,19 @@ var mockUser = User{
 	Password: "$2a$10$V88UKhSytAlx.Us2zFzc7uulzIo2ICK54nW1TgA4m6zm4zw3QIbji", // Password is "password123"
 }
 
-func RegisterUserRoutes(router *mux.Router) {
+type UserHandler struct {
+	Client *firestore.Client
+}
+
+func RegisterUserRoutes(router *mux.Router, h *UserHandler) {
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("USER ENDPOINT"))
 	})
-	router.HandleFunc("/login", GetUserWithCredentials).Methods("POST", "OPTIONS")
+	router.HandleFunc("/login", h.GetUserWithCredentials).Methods("POST", "OPTIONS")
 }
 
-func GetUserWithCredentials(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) GetUserWithCredentials(w http.ResponseWriter, r *http.Request) {
 	// Parse the request body
 
 	var reqBody struct {
@@ -52,6 +58,12 @@ func GetUserWithCredentials(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("reqBody ", reqBody.Email)
 	fmt.Println("mockUser.Email ", mockUser.Email)
 	// Check if the user exists (mock check for now)
+	_, err := stores.GetUserByEmail(h.Client, reqBody.Email)
+
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
 	if reqBody.Email != mockUser.Email {
 		fmt.Println("Email doesnt match")
 		http.Error(w, "Invalid email or password", http.StatusUnauthorized)

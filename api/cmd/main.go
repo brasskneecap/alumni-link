@@ -1,15 +1,27 @@
 package main
 
 import (
+	"AlumniLink/api/pkg/firebase"
 	"AlumniLink/api/pkg/routes"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/rs/cors"
 )
 
 func main() {
-	router := routes.SetupRouter()
+	// Set credential path if not using environment variables already
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "config/test-project-252419-db6507ef65e2.json")
+
+	// Initialize Firestore client
+	fsClient, err := firebase.InitFirestore()
+	if err != nil {
+		log.Fatalf("Failed to initialize Firestore: %v", err)
+	}
+	defer fsClient.Close()
+
+	router := routes.SetupRouter(fsClient)
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:5173"}, // Your frontend origin
