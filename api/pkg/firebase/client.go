@@ -20,11 +20,8 @@ var (
 func InitFirestore() (*firestore.Client, error) {
 	once.Do(func() {
 		creds := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
-		if creds == "" {
-			creds = "config/test-project-252419-db6507ef65e2.json" // fallback default path
-		}
-		val := option.WithCredentialsFile(creds)
-		app, err := firebase.NewApp(projectCtx, nil, val)
+
+		app, err := firebase.NewApp(projectCtx, nil, option.WithCredentialsFile(creds))
 		if err != nil {
 			initErr = err
 			return
