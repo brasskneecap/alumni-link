@@ -4,15 +4,19 @@ import (
 	"AlumniLink/api/pkg/handlers"
 	"net/http"
 
+	"cloud.google.com/go/firestore"
 	"github.com/gorilla/mux"
 )
 
-func SetupRouter() *mux.Router {
+func SetupRouter(client *firestore.Client) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
 	// User Routes
 	userRouter := router.PathPrefix("/user").Subrouter()
-	handlers.RegisterUserRoutes(userRouter)
+	userHandler := &handlers.UserHandler{
+		Client: client,
+	}
+	handlers.RegisterUserRoutes(userRouter, userHandler)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
