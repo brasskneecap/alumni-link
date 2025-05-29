@@ -19,18 +19,11 @@
 
       <!-- assignments and team list -->
       <div class="tracker-container">
-        <div class="this-week-container al-card">
+        <div v-for="assignment in assignments" class="this-week-container al-card">
           <AssignmentCard
-            icon="mdi-file-document-multiple-outline"
-            title="This Week"
-            content="1/3"
-          />
-        </div>
-        <div class="completed-container al-card">
-          <AssignmentCard
-            icon="mdi-file-document-multiple-outline"
-            title="Total Completed"
-            content="8/16"
+            :icon="assignment.icon"
+            :title="assignment.title"
+            :content="assignment.content"
           />
         </div>
         <div class="team-container">
@@ -69,8 +62,21 @@ export default {
     const store = useStore()
 
     const user = computed(() => store.getters["user/user"]);
+    const assignments = [
+      {
+        icon:"mdi-file-document-multiple-outline",
+        title:"This Week",
+        content:"1/3"},
+      {
+        icon:"mdi-file-document-multiple-outline",
+        title:"Total Completed",
+        content:"8/16",
+      }
+    ]
+
     return {
       user,
+      assignments,
     }
   }
 }

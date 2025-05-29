@@ -41,13 +41,13 @@ func (h *UserHandler) GetUserWithCredentials(w http.ResponseWriter, r *http.Requ
 	user, err := stores.GetUserByEmail(h.Client, reqBody.Email)
 
 	if err != nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		http.Error(w, "Internal Server Error", http.StatusNotFound)
 		return
 	}
 
 	// Compare the provided password with the stored hash
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(reqBody.Password)); err != nil {
-		http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+		http.Error(w, "Internal Server Error", http.StatusUnauthorized)
 		return
 	}
 

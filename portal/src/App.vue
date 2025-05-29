@@ -17,7 +17,6 @@
     setup () {
       const store = useStore()
       const loggedIn = computed(() => store.getters["user/loggedIn"]);
-      console.log("Logged In:", loggedIn.value);
       return {
         // access a getter in computed function
         loggedIn,
