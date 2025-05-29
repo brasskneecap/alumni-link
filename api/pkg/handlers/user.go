@@ -11,23 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type User struct {
-	Name     string `json:"name"`
-	School   string `json:"school"`
-	ID       string `json:"id"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
-// Mock user for testing
-var mockUser = User{
-	Name:     "Test User",
-	School:   "Test School",
-	ID:       "123",
-	Email:    "test@example.com",
-	Password: "$2a$10$VdoWMA4EnEqZFM3wOrGZR.3uMeLBY3fGR2imfz8tn2n6s6OkbZhjK", // Password is "password123"
-}
-
 type UserHandler struct {
 	Client *firestore.Client
 }

@@ -8,11 +8,11 @@ import (
 )
 
 type User struct {
-	ID       string `firestore:"-"` // we'll assign this from DocRef.ID
-	Email    string `firestore:"email"`
-	Password string `firestore:"password"`
-	School   string `firestore:"school"`
-	Name     string `firestore:"name"`
+	ID       string `firestore:"-" json:"id"` // Not stored in Firestore, but included in JSON
+	Email    string `firestore:"email" json:"email"`
+	Password string `firestore:"password" json:"password"`
+	School   string `firestore:"school" json:"school"`
+	Name     string `firestore:"name" json:"name"`
 	// Add more fields as needed
 }
 
