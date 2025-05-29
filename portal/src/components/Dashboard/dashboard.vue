@@ -9,7 +9,7 @@
       <!-- welcome message, settings, notification -->
       <div class="topbar-container">
         <div class="welcome-container">
-          <h2>Welcome Back, {{ user.name }}</h2>
+          <h2>Welcome Back, name</h2>
           <p>Take a look at your progress</p>
         </div>
         <div class="profile-container">
@@ -56,24 +56,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+// import { ref } from 'vue'
 import AssignmentCard from './AssignmentCard.vue';
-import { computed } from 'vue'
-import { useStore } from 'vuex'
 
-export default {
-    components: {
-      AssignmentCard,
-  },
-  setup () {
-    const store = useStore()
-
-    const user = computed(() => store.getters["user/user"]);
-    return {
-      user,
-    }
-  }
-}
 </script>
 
 <style lang="scss">
