@@ -9,10 +9,10 @@
         size="22">
         </v-icon>
       </div>
-      <div 
+      <h3 
       class="tracker-title"> 
       {{ title }}
-      </div>
+    </h3>
     </div>
     <div class="tracker-bottom">
       <div 

@@ -26,22 +26,37 @@
             :content="assignment.content"
           />
         </div>
-        <div class="team-container">
-
+        
+        <div v-for="team in teams" class="team-container al-card">
+          <TeamCard
+            :icon="team.icon"
+            :title="team.title"
+            :isHeader="true"
+          />
+          <div class="team-members">
+            <div v-for="member in team.members">
+              <TeamCard
+                :name="member.name"
+                :role="member.role"
+                :description="member.description"
+                :isHeader="false"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- upcoming things list -->
-      <div class="upcoming-container"></div>
+      <div class="upcoming-container al-card"></div>
     </div>
 
     <div class="right-side">
       <!-- calendar and blast -->
       <div class="right-container">
-        <div class="calendar-container">
+        <div class="calendar-container al-card">
 
         </div>
-        <div class="blast-container">
+        <div class="blast-container al-card">
 
         </div>
       </div>
@@ -51,12 +66,14 @@
 
 <script>
 import AssignmentCard from './AssignmentCard.vue';
+import TeamCard from './TeamCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
     components: {
       AssignmentCard,
+      TeamCard,
   },
   setup () {
     const store = useStore()
@@ -74,9 +91,29 @@ export default {
       }
     ]
 
+    const teams =[
+      {
+        icon:"mdi-account-group-outline",
+        title:"Your Team",
+        members: [
+          {
+            name:"Mike Harper",
+            role:"Faculty",
+            description:"Professor at Utah Valley University",
+          },
+          {
+            name:"Mike Harper",
+            role:"Faculty",
+            description:"Professor at Utah Valley University",
+          }
+        ]
+      }
+    ]
+
     return {
       user,
       assignments,
+      teams,
     }
   }
 }
@@ -131,14 +168,12 @@ export default {
   .team-container {
     width: 25rem;
     height: 12.5rem;
-    background-color: aquamarine;
   }
 }
 
 .upcoming-container {
   width: 63rem;
   height: 40.625rem;
-  background-color: lightcoral;
   margin: 2.66rem 0 0 5rem;
 }
 
@@ -149,13 +184,11 @@ export default {
   gap: 2.5rem;
 
   .calendar-container {
-    background-color: lightblue;
     width: 25rem;
     height: 19.8125rem;
   }
 
   .blast-container {
-    background-color: green;
     width: 25rem;
     height: 33.3125rem;
   }
