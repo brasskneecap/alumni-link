@@ -8,11 +8,14 @@ import (
 )
 
 type User struct {
-	ID       string `firestore:"-" json:"id"` // Not stored in Firestore, but included in JSON
-	Email    string `firestore:"email" json:"email"`
-	Password string `firestore:"password" json:"password"`
-	School   string `firestore:"school" json:"school"`
-	Name     string `firestore:"name" json:"name"`
+	ID       string   `firestore:"-" json:"id"` // Not stored in Firestore, but included in JSON
+	Email    string   `firestore:"email" json:"email"`
+	Password string   `firestore:"password" json:"password"`
+	School   string   `firestore:"school" json:"school"`
+	Name     string   `firestore:"name" json:"name"`
+	Role     string   `firestore:"role" json:"role"`
+	MentorId string   `firestore:"mentor_id" json:"mentorId"`
+	Groups   []string `firestore:"groups" json:"groups"`
 	// Add more fields as needed
 }
 

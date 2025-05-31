@@ -1,4 +1,4 @@
-import { getUserWithCredentials } from '../../services/user'
+import UserService from '../../services/user'
 
 // initial state
 const state = () => ({
@@ -6,7 +6,10 @@ const state = () => ({
     name: '',
     school: '',
     id: '',
-    email: ''
+    email: '',
+    role: '',
+    mentorId: '',
+    groups: [],
   },
   loggedIn: false
 })
@@ -19,10 +22,18 @@ const getters = {
 
 // actions
 const actions = {
-  async login ({ commit }, { email, password }) {
-    const user = await getUserWithCredentials({ email, password })
+  async login ({ commit, dispatch, state }, { email, password }) {
+    const user = await UserService.getUserWithCredentials({ email, password })
     commit('SET_USER', user)
     commit('SET_LOGGED_IN', true)
+
+    const assignmentPayload = {
+      id: state.user.id, 
+      mentorId: state.user.mentorId,
+      groups: state.user.groups,
+    }
+
+    await dispatch('assignments/getStudentAssignments', assignmentPayload, {root: true})
   }
 }
 
@@ -30,6 +41,8 @@ const actions = {
 const mutations = {
   SET_USER (state, user) {
     state.user = user
+    state.mentorId = user.mentorId
+    state.groups = user.groups
   },
   SET_LOGGED_IN(state, status) {
     state.loggedIn = status;
