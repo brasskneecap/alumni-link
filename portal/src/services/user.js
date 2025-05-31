@@ -1,22 +1,22 @@
-import axios from "axios";
+import utils from "./utils.js";
 
-const API_BASE_URL = "http://localhost:8080";
+const BASE_URL = "user";
 
-export const getUserWithCredentials = async (credentials) => {
+const getUserWithCredentials = async (credentials) => {
   try {
-      const response = await axios.post(
-        `${API_BASE_URL}/user/login`, // REQUEST URL
-        credentials, // BODY
-        {
-          headers: { // Additional information for the request
-              "Content-Type": "application/json",
-          },
-        }
-      );
+      const request = {
+        url: `${BASE_URL}/login`,
+        body: credentials,
+      }
+      const response = utils.request(request)
 
-      return response.data;
+      return response;
   } catch (error) {
       console.error("Error logging in:", error);
       throw error;
   }
 };
+
+export default {
+  getUserWithCredentials
+}

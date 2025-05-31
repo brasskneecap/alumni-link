@@ -1,0 +1,51 @@
+import AssignmentService from '../../services/assignments'
+
+// initial state
+/*
+  Example STATE:
+  Assignments:
+    Assignment: {
+    name: string
+    allowedContent: []
+    createdAt: date
+    description: string
+    dueDate: date
+    mentorId: string
+    feedback: string
+    submittedAt: date
+    status: string
+  }
+*/
+const state = () => ({
+  assignments: []
+})
+
+// getters
+const getters = {
+  assignments: (state) => state.assignments,
+}
+
+// actions
+const actions = {
+  async getStudentAssignments ({ commit }, {id, mentorId, groups}) {
+    console.log(id, mentorId, groups[0])
+    const assignments = await AssignmentService.getStudentAssignments({id, groupId: groups[0]})
+    console.log(assignments)
+    commit('SET_ASSIGNMENTS', assignments)
+  }
+}
+
+// mutations
+const mutations = {
+  SET_ASSIGNMENTS(state, assignments) {
+    state.assignments = assignments
+  },
+}
+
+export default {
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
+}
