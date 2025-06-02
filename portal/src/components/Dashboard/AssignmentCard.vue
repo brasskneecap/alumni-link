@@ -1,25 +1,20 @@
 <template>
   <div class="assignments-tracker">
-    <div class="tracker-topbar">
-      <div 
-      class="tracker-icon"> 
+    <div class="tracker-header">
+      <div class="tracker-icon"> 
         <v-icon 
         :icon="icon"
         class="icon"
         size="22">
         </v-icon>
       </div>
-      <h3 
-      class="tracker-title"> 
-      {{ title }}
-    </h3>
-    </div>
-    <div class="tracker-bottom">
-      <div 
-      class="tracker-content">
-      {{ content }}
+      <div class="title-container">
+        <h3 class="tracker-title">{{ title }}</h3>
       </div>
-
+    </div>
+    
+    <div class="tracker-bottom">
+      <div class="tracker-content">{{ content }}</div>
       <div class="tracker-subtitle">
         <p>Assignments Completed</p>
       </div>
@@ -55,15 +50,15 @@ defineProps({
   flex-direction: column;
 }
 
-.tracker-topbar {
+.tracker-header {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     height: 3rem;
 
   .tracker-icon {
     display: flex;
+    align-items: center;
     
     .icon {
       background-color: $al-primary-color;
@@ -73,11 +68,16 @@ defineProps({
     }
   }
 
-  .tracker-title {
-    margin-left: 1rem;
-    font-size: 16px;
-    font-weight: 700;
-    padding-top: .5rem;
+  .title-container {
+    display: flex;
+    align-items: center;
+    
+    .tracker-title {
+      margin-left: 1rem;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 0;
+    }
   }
 }
 

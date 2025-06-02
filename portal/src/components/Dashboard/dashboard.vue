@@ -79,6 +79,7 @@ export default {
     const store = useStore()
 
     const user = computed(() => store.getters["user/user"]);
+    
     const assignments = [
       {
         icon:"mdi-file-document-multiple-outline",
@@ -97,11 +98,13 @@ export default {
         title:"Your Team",
         members: [
           {
+            src:"#",
             name:"Mike Harper",
             role:"Faculty",
             description:"Professor at Utah Valley University",
           },
           {
+            src:"#",
             name:"Mike Harper",
             role:"Faculty",
             description:"Professor at Utah Valley University",

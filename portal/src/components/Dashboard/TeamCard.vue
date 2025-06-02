@@ -9,19 +9,34 @@
           size="22">
         </v-icon>
       </div>
-      <h3>{{ title }}</h3>
+      <div>
+        <div class="title-container">
+          <h3 class="team-title">{{ title }}</h3>
+        </div>
+      </div>
     </div>
 
     <!-- member view -->
     <div v-else class="team-member">
-    <div class="member-title">
-      <h4>
-        <span class="member-name">{{ name }}</span>
-        <span class="bullet">&bull;</span>
-        <span class="member-role">{{ role }}</span>
-      </h4>
-    </div>
-      <p class="description">{{ description }}</p>
+      <div class="member-avatar">
+        <v-avatar class="avatar">
+          <v-img
+            alt="member-avatar"
+            :src="src"
+            size="42"
+          ></v-img>
+        </v-avatar>
+      </div>
+      <div class="title-container">
+        <div class="member-title">
+          <h4>
+            <span class="member-name">{{ name }}</span>
+            <span class="bullet">&bull;</span>
+            <span class="member-role">{{ role }}</span>
+          </h4>
+        </div>
+        <p class="description">{{ description }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +52,10 @@ defineProps({
   title: {
     type: String,
     default: ''
+  },
+  src: {
+  type: String,
+  default: ''
   },
   name: {
     type: String,
@@ -69,12 +88,12 @@ defineProps({
 .team-header {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     height: 3rem;
 
   .team-icon {
     display: flex;
+    align-items: center;
     
     .icon {
       background-color: $al-primary-color;
@@ -84,22 +103,57 @@ defineProps({
     }
   }
 
-  h3 {
-    margin-left: 1rem;
-    font-size: 16px;
-    font-weight: 700;
-    padding-top: .5rem;
+  .title-container {
+    display: flex;
+    align-items: center;
+
+    .team-title {
+      margin-left: 1rem;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 0;
+    }
   }
 }
 
-.member-title {
-  h4 {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    
-    .member-role {
+.team-member {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+
+  .member-avatar {
+
+    .avatar {
+      background-color: $al-primary-color;
       color: $al-primary-blue;
+    }
+  }
+
+  .title-container {
+
+    .member-title {
+
+      h4 {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+
+        .member-name, .bullet, .member-role {
+          font-size: 16px;
+          font-weight: 700;
+        }
+        
+        .member-role {
+          color: $al-primary-blue;
+        }
+      }
+    }
+
+    .description {
+      font-size: 12px;
+      font-weight: 400;
+      color: $al-secondary-gray;
     }
   }
 }
