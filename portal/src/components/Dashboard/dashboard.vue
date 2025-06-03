@@ -7,9 +7,9 @@
 
     <div class="left-side">
       <!-- welcome message, settings, notification -->
-      <div class="topbar-container">
+      <div class="header-container">
         <div class="welcome-container">
-          <h2>Welcome Back, name</h2>
+          <h2>Welcome Back, {{ user.name }}</h2>
           <p>Take a look at your progress</p>
         </div>
         <div class="profile-container">
@@ -19,36 +19,62 @@
 
       <!-- assignments and team list -->
       <div class="tracker-container">
-        <div class="this-week-container al-card">
+        <div v-for="assignment in assignments" class="this-week-container al-card">
           <AssignmentCard
-            icon="mdi-file-document-multiple-outline"
-            title="This Week"
-            content="1/3"
+            :icon="assignment.icon"
+            :title="assignment.title"
+            :content="assignment.content"
           />
         </div>
-        <div class="completed-container al-card">
-          <AssignmentCard
-            icon="mdi-file-document-multiple-outline"
-            title="Total Completed"
-            content="8/16"
+        
+        <div v-for="team in teams" class="team-container al-card">
+          <TeamCard
+            :icon="team.icon"
+            :title="team.title"
+            :isHeader="true"
           />
-        </div>
-        <div class="team-container">
-
+          <div class="team-members">
+            <div v-for="member in team.members">
+              <TeamCard
+                :name="member.name"
+                :role="member.role"
+                :description="member.description"
+                :isHeader="false"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- upcoming things list -->
-      <div class="upcoming-container"></div>
+      <div v-for="list in upcoming" class="upcoming-container al-card">
+        <UpcomingCard
+          :icon="list.icon"
+          :title="list.title"
+          :isHeader="true"
+        />
+        <div class="list-items">
+          <div v-for="item in list.items">
+            <UpcomingCard 
+              :date="item.date"
+              :itemTitle="item.itemTitle"
+              :itemTag="item.itemTag"
+              :itemSubtitle="item.itemSubtitle"
+              :isHeader="false"
+            />
+          </div>
+        </div>
+      </div>
+      
     </div>
 
     <div class="right-side">
       <!-- calendar and blast -->
       <div class="right-container">
-        <div class="calendar-container">
+        <div class="calendar-container al-card">
 
         </div>
-        <div class="blast-container">
+        <div class="blast-container al-card">
 
         </div>
       </div>
@@ -56,10 +82,104 @@
   </div>
 </template>
 
-<script setup>
-// import { ref } from 'vue'
+<script>
 import AssignmentCard from './AssignmentCard.vue';
+import TeamCard from './TeamCard.vue';
+import UpcomingCard from './UpcomingCard.vue';
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
+export default {
+    components: {
+      AssignmentCard,
+      TeamCard,
+      UpcomingCard,
+
+  },
+  setup () {
+    const store = useStore()
+
+    const user = computed(() => store.getters["user/user"]);
+    const assignments = [
+      {
+        icon:"mdi-file-document-multiple-outline",
+        title:"This Week",
+        content:"1/3"},
+      {
+        icon:"mdi-file-document-multiple-outline",
+        title:"Total Completed",
+        content:"8/16",
+      }
+    ]
+
+    const teams = [
+      {
+        icon:"mdi-account-group-outline",
+        title:"Your Team",
+        members: [
+          {
+            src:"#",
+            name:"Mike Harper",
+            role:"Faculty",
+            description:"Professor at Utah Valley University",
+          },
+          {
+            src:"#",
+            name:"Mike Harper",
+            role:"Faculty",
+            description:"Professor at Utah Valley University",
+          }
+        ]
+      }
+    ]
+
+    const upcoming = [
+      {
+        icon:"mdi-calendar-month-outline",
+        title:"UPCOMING",
+        items: [
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+        ]
+      }
+    ]
+
+    return {
+      user,
+      assignments,
+      teams,
+      upcoming,
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -81,7 +201,7 @@ import AssignmentCard from './AssignmentCard.vue';
   margin-right: 4.5rem;
 }
 
-.topbar-container {
+.header-container {
 
     .welcome-container {
     margin: 1.88rem 0 0 5rem;
@@ -111,14 +231,12 @@ import AssignmentCard from './AssignmentCard.vue';
   .team-container {
     width: 25rem;
     height: 12.5rem;
-    background-color: aquamarine;
   }
 }
 
 .upcoming-container {
   width: 63rem;
   height: 40.625rem;
-  background-color: lightcoral;
   margin: 2.66rem 0 0 5rem;
 }
 
@@ -129,13 +247,11 @@ import AssignmentCard from './AssignmentCard.vue';
   gap: 2.5rem;
 
   .calendar-container {
-    background-color: lightblue;
     width: 25rem;
     height: 19.8125rem;
   }
 
   .blast-container {
-    background-color: green;
     width: 25rem;
     height: 33.3125rem;
   }

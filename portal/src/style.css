@@ -74,6 +74,13 @@ button:focus-visible {
   box-shadow: 0px 6px 10px 8px color(display-p3 0 0 0 / 0.05);
 }
 
+.al-icon {
+  padding: 1.15rem;
+  border-radius: 0.625rem;
+  background-color: #E0EAFA;
+  color: #4065DA;
+}
+
 #app {
   margin: 0;
 }
