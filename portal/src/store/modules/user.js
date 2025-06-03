@@ -21,6 +21,7 @@ const getters = {
 const actions = {
   async login ({ commit }, { email, password }) {
     const user = await getUserWithCredentials({ email, password })
+    console.log('User logged in:', user)
     commit('SET_USER', user)
     commit('SET_LOGGED_IN', true)
   }
