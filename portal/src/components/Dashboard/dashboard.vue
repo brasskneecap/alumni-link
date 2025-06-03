@@ -45,27 +45,7 @@
           </div>
         </div>
       </div>
-
-      <!-- upcoming things list -->
-      <div v-for="list in upcoming" class="upcoming-container al-card">
-        <UpcomingCard
-          :icon="list.icon"
-          :title="list.title"
-          :isHeader="true"
-        />
-        <div class="list-items">
-          <div v-for="item in list.items">
-            <UpcomingCard 
-              :date="item.date"
-              :itemTitle="item.itemTitle"
-              :itemTag="item.itemTag"
-              :itemSubtitle="item.itemSubtitle"
-              :isHeader="false"
-            />
-          </div>
-        </div>
-      </div>
-      
+      <UpcomingCard></UpcomingCard>
     </div>
 
     <div class="right-side">
@@ -85,9 +65,9 @@
 <script>
 import AssignmentCard from './inner-cards/AssignmentCard.vue';
 import TeamCard from './inner-cards/TeamCard.vue';
-import UpcomingCard from './inner-cards/UpcomingCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 
 export default {
     components: {
@@ -133,50 +113,10 @@ export default {
       }
     ]
 
-    const upcoming = [
-      {
-        icon:"mdi-calendar-month-outline",
-        title:"UPCOMING",
-        items: [
-          {
-            date:"APRIL 7",
-            itemTitle:"Create LinkedIn Profile and Upload",
-            itemTag:"Assignment",
-            itemSubtitle:"Create your LinkedIn profile and upload the link",
-          },
-          {
-            date:"APRIL 7",
-            itemTitle:"Create LinkedIn Profile and Upload",
-            itemTag:"Assignment",
-            itemSubtitle:"Create your LinkedIn profile and upload the link",
-          },
-          {
-            date:"APRIL 7",
-            itemTitle:"Create LinkedIn Profile and Upload",
-            itemTag:"Assignment",
-            itemSubtitle:"Create your LinkedIn profile and upload the link",
-          },
-          {
-            date:"APRIL 7",
-            itemTitle:"Create LinkedIn Profile and Upload",
-            itemTag:"Assignment",
-            itemSubtitle:"Create your LinkedIn profile and upload the link",
-          },
-          {
-            date:"APRIL 7",
-            itemTitle:"Create LinkedIn Profile and Upload",
-            itemTag:"Assignment",
-            itemSubtitle:"Create your LinkedIn profile and upload the link",
-          },
-        ]
-      }
-    ]
-
     return {
       user,
       assignments,
       teams,
-      upcoming,
     }
   }
 }
@@ -232,12 +172,6 @@ export default {
     width: 25rem;
     height: 12.5rem;
   }
-}
-
-.upcoming-container {
-  width: 63rem;
-  height: 40.625rem;
-  margin: 2.66rem 0 0 5rem;
 }
 
 .right-container {

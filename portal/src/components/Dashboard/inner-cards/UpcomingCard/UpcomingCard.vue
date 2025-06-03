@@ -1,72 +1,97 @@
 <template>
-  <div class="upcoming-card">
-    <div v-if="isHeader" class="upcoming-header">
+  <div class="upcoming-container al-card upcoming-card">
+    <div class="upcoming-header">
       <div class="upcoming-icon">
         <v-icon 
-          :icon="icon" 
+          icon="mdi-calendar-month-outline" 
           class="al-icon" 
           size="22">
         </v-icon>
       </div>
       <div>
         <div class="title-container">
-          <h3 class="upcoming-title">{{ title }}</h3>
+          <h3 class="upcoming-title">UPCOMING</h3>
         </div>
       </div>
     </div>
 
-    <div v-else class="upcoming-items">
-      <div class="upcoming-date">{{ date }}</div>
-      <div class="upcoming-item">
-        <div class="title-tag-container">
-          <span class="item-title">{{ itemTitle }}</span>
-          <span class="item-tag">{{ itemTag }}</span>
-        </div>
-        <div class="item-subtitle">
-          <span class="subtitle-text">{{ itemSubtitle }}</span>
-        </div>
-      </div>
+    <div class="upcoming-items">
+      <UpcomingItem v-for="item in items"
+        :title="item.title"
+        :date="item.date"
+        :tag="item.tag"
+        :description="item.description"
+      />
+      <!-- <UpcomingItem v-for="assignment in assignments"
+        :title="item.title"
+        :date="item.date"
+        :tag="item.tag"
+        :description="item.description"
+      /> -->
     </div>
   </div>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
+<script>
+// import { defineProps } from 'vue'
+import UpcomingItem from './UpcomingItem.vue';
+  
+export default {
+  components: {
+      UpcomingItem,
 
-defineProps({
-  icon: {
-    type: String,
-    default: ''
   },
-  title: {
-    type: String,
-    default: ''
-  },
-  date: {
-    type: String,
-    default: ''
-  },
-  itemTitle: {
-    type: String,
-    default: ''
-  },
-  itemTag: {
-    type: String,
-    default: ''
-  },
-  itemSubtitle: {
-    type: String,
-    default: ''
-  },
-    isHeader: {
-    type: Boolean,
-    default: false
+
+  setup() {
+    const items = [
+      {
+        title:"Create LinkedIn Profile and Upload",
+        date:"APRIL 7",
+        tag:"Assignment",
+        description:"Create your LinkedIn profile and upload the link",
+      },
+      {
+        title:"Create LinkedIn Profile and Upload",
+        date:"APRIL 7",
+        tag:"Assignment",
+        description:"Create your LinkedIn profile and upload the link",
+      },
+      {
+        title:"Create LinkedIn Profile and Upload",
+        date:"APRIL 7",
+        tag:"Assignment",
+        description:"Create your LinkedIn profile and upload the link",
+      },
+      {
+        title:"Create LinkedIn Profile and Upload",
+        date:"APRIL 7",
+        tag:"Assignment",
+        description:"Create your LinkedIn profile and upload the link",
+      },
+      {
+        title:"Create LinkedIn Profile and Upload",
+        date:"APRIL 7",
+        tag:"Assignment",
+        description:"Create your LinkedIn profile and upload the link",
+      },
+    ]
+
+    return {
+      items,
+    }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
+
+
+.upcoming-container {
+  width: 63rem;
+  height: 40.625rem;
+  margin: 2.66rem 0 0 5rem;
+}
 
 .upcoming-card {
   padding: 2rem 3.12rem;
@@ -98,30 +123,6 @@ defineProps({
 }
 
 .upcoming-items {
-  display: flex;
-  flex-direction: row;
-  gap: 1.25rem;
-
-  .upcoming-date {
-    display: flex;
-    align-items: center;
-    color: $al-primary-blue;
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  .title-tag-container {
-    gap: 0.6rem;
-    display: flex;
-
-    .item-title {
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .item-tag {
-      font-size: 10px;
-    }
-  }
+  margin-top: 1rem;
 }
 </style>
