@@ -22,12 +22,12 @@
         :tag="item.tag"
         :description="item.description"
       />
-      <!-- <UpcomingItem v-for="assignment in assignments"
-        :title="item.title"
-        :date="item.date"
-        :tag="item.tag"
-        :description="item.description"
-      /> -->
+      <UpcomingItem v-for="assignment in assignments"
+        :title="assignment.name"
+        :date="assignment.dueDate"
+        :tag="assignment.submission.status"
+        :description="assignment.description"
+      />
     </div>
   </div>
 </template>
@@ -35,7 +35,9 @@
 <script>
 // import { defineProps } from 'vue'
 import UpcomingItem from './UpcomingItem.vue';
-  
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   components: {
       UpcomingItem,
@@ -43,6 +45,8 @@ export default {
   },
 
   setup() {
+    const store = useStore()
+    const assignments = computed(() => store.getters["assignments/assignments"]);
     const items = [
       {
         title:"Create LinkedIn Profile and Upload",
@@ -75,9 +79,11 @@ export default {
         description:"Create your LinkedIn profile and upload the link",
       },
     ]
-
+    
+    console.log(assignments)
     return {
       items,
+      assignments,
     }
   }
 }
