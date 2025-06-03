@@ -7,7 +7,7 @@
 
     <div class="left-side">
       <!-- welcome message, settings, notification -->
-      <div class="topbar-container">
+      <div class="header-container">
         <div class="welcome-container">
           <h2>Welcome Back, {{ user.name }}</h2>
           <p>Take a look at your progress</p>
@@ -47,7 +47,25 @@
       </div>
 
       <!-- upcoming things list -->
-      <div class="upcoming-container al-card"></div>
+      <div v-for="list in upcoming" class="upcoming-container al-card">
+        <UpcomingCard
+          :icon="list.icon"
+          :title="list.title"
+          :isHeader="true"
+        />
+        <div class="list-items">
+          <div v-for="item in list.items">
+            <UpcomingCard 
+              :date="item.date"
+              :itemTitle="item.itemTitle"
+              :itemTag="item.itemTag"
+              :itemSubtitle="item.itemSubtitle"
+              :isHeader="false"
+            />
+          </div>
+        </div>
+      </div>
+      
     </div>
 
     <div class="right-side">
@@ -67,6 +85,7 @@
 <script>
 import AssignmentCard from './AssignmentCard.vue';
 import TeamCard from './TeamCard.vue';
+import UpcomingCard from './UpcomingCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -74,12 +93,13 @@ export default {
     components: {
       AssignmentCard,
       TeamCard,
+      UpcomingCard,
+
   },
   setup () {
     const store = useStore()
 
     const user = computed(() => store.getters["user/user"]);
-    
     const assignments = [
       {
         icon:"mdi-file-document-multiple-outline",
@@ -92,7 +112,7 @@ export default {
       }
     ]
 
-    const teams =[
+    const teams = [
       {
         icon:"mdi-account-group-outline",
         title:"Your Team",
@@ -113,10 +133,50 @@ export default {
       }
     ]
 
+    const upcoming = [
+      {
+        icon:"mdi-calendar-month-outline",
+        title:"UPCOMING",
+        items: [
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+          {
+            date:"APRIL 7",
+            itemTitle:"Create LinkedIn Profile and Upload",
+            itemTag:"Assignment",
+            itemSubtitle:"Create your LinkedIn profile and upload the link",
+          },
+        ]
+      }
+    ]
+
     return {
       user,
       assignments,
       teams,
+      upcoming,
     }
   }
 }
@@ -141,7 +201,7 @@ export default {
   margin-right: 4.5rem;
 }
 
-.topbar-container {
+.header-container {
 
     .welcome-container {
     margin: 1.88rem 0 0 5rem;

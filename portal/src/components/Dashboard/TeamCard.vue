@@ -5,7 +5,7 @@
       <div class="team-icon">
         <v-icon 
           :icon="icon" 
-          class="icon" 
+          class="al-icon" 
           size="22">
         </v-icon>
       </div>
@@ -94,13 +94,6 @@ defineProps({
   .team-icon {
     display: flex;
     align-items: center;
-    
-    .icon {
-      background-color: $al-primary-color;
-      padding: 1.15rem;
-      border-radius: 0.625rem;
-      color: $al-primary-blue;
-    }
   }
 
   .title-container {
@@ -157,5 +150,4 @@ defineProps({
     }
   }
 }
-
 </style>
