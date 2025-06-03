@@ -83,9 +83,9 @@
 </template>
 
 <script>
-import AssignmentCard from './AssignmentCard.vue';
-import TeamCard from './TeamCard.vue';
-import UpcomingCard from './UpcomingCard.vue';
+import AssignmentCard from './inner-cards/AssignmentCard.vue';
+import TeamCard from './inner-cards/TeamCard.vue';
+import UpcomingCard from './inner-cards/UpcomingCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
