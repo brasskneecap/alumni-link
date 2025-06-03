@@ -2,12 +2,12 @@
     <div class="upcoming-item">
       <div class="upcoming-date">{{ date }}</div>
       <div>
-        <div class="title-tag-container">
-          <span class="item-title">{{ title }}</span>
-          <span class="item-tag">{{ tag }}</span>
+        <div class="container">
+          <span class="title">{{ title }}</span>
+          <span class="tag">{{ tag }}</span>
         </div>
-        <div class="item-subtitle">
-          <span class="subtitle-text">{{ description }}</span>
+        <div>
+          <span class="description">{{ description }}</span>
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@
   display: flex;
   flex-direction: row;
   gap: 1.25rem;
+  margin-bottom: 3.19rem;
 
   .upcoming-date {
     display: flex;
@@ -49,18 +50,29 @@
     font-weight: 500;
   }
 
-  .title-tag-container {
+  .container {
     gap: 0.6rem;
     display: flex;
 
-    .item-title {
+    .title {
       font-size: 16px;
       font-weight: 500;
     }
 
-    .item-tag {
+    .tag {
+      display: flex;
+      align-items: center;
+      padding: 0 0.7rem;
+      border-radius: 15px;
       font-size: 10px;
+      background-color: $al-tag-assignment;
     }
+  }
+
+  .description {
+    font-size: 14px;
+    font-weight: 400;
+    color: $al-secondary-gray;
   }
 }
 </style>
