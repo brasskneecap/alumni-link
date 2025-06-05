@@ -51,7 +51,7 @@
   }
 
   .container {
-    gap: 0.6rem;
+    gap: 1rem;
     display: flex;
 
     .title {
