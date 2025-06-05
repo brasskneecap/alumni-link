@@ -22,12 +22,14 @@
         :tag="item.tag"
         :description="item.description"
       />
-      <UpcomingItem v-for="assignment in assignments"
+
+      <!-- <UpcomingItem v-for="assignment in assignments"
         :title="assignment.name"
         :date="assignment.dueDate"
         :tag="assignment.submission.status"
         :description="assignment.description"
-      />
+      /> -->
+
     </div>
   </div>
 </template>
@@ -109,6 +111,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 2rem;
 
   .upcoming-icon {
     display: flex;
