@@ -1,14 +1,13 @@
 <template>
   <div class="dashboard-container">
-
     <div class="notif-profile-container">
-
     </div>
 
+    <!-- Left Side Content -->
     <div class="left-side">
-      <!-- welcome message, settings, notification -->
+      <!-- Header section -->
       <div class="header-container">
-        <div class="welcome-container">
+         <div class="welcome-container">
           <h2>Welcome Back, {{ user.name }}</h2>
           <p>Take a look at your progress</p>
         </div>
@@ -17,7 +16,7 @@
         </div>
       </div>
 
-      <!-- assignments and team list -->
+      <!-- Tracker section -->
       <div class="tracker-container">
         <div v-for="assignment in assignments" class="this-week-container al-card">
           <AssignmentCard
@@ -25,46 +24,35 @@
             :title="assignment.title"
             :content="assignment.content"
           />
+        </div>      
+        <div class="team-container">
+          <TeamCard />
         </div>
-        
-        <div v-for="team in teams" class="team-container al-card">
-          <TeamCard
-            :icon="team.icon"
-            :title="team.title"
-            :isHeader="true"
-          />
-          <div class="team-members">
-            <div v-for="member in team.members">
-              <TeamCard
-                :name="member.name"
-                :role="member.role"
-                :description="member.description"
-                :isHeader="false"
-              />
-            </div>
+      </div>
+
+      <!-- Upcoming section -->
+      <div class="upcoming-wrapper">
+        <UpcomingCard />
+      </div>
+    </div>
+
+      <div class="right-side">
+        <!-- calendar and blast -->
+        <div class="right-container">
+          <div class="calendar-container al-card">
+
+          </div>
+          <div class="blast-container al-card">
+
           </div>
         </div>
       </div>
-      <UpcomingCard></UpcomingCard>
     </div>
-
-    <div class="right-side">
-      <!-- calendar and blast -->
-      <div class="right-container">
-        <div class="calendar-container al-card">
-
-        </div>
-        <div class="blast-container al-card">
-
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
 import AssignmentCard from './inner-cards/AssignmentCard.vue';
-import TeamCard from './inner-cards/TeamCard.vue';
+import TeamCard from './inner-cards/TeamCard/TeamCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
@@ -73,7 +61,7 @@ export default {
     components: {
       AssignmentCard,
       TeamCard,
-      UpcomingCard,
+      UpcomingCard
 
   },
   setup () {
@@ -92,31 +80,9 @@ export default {
       }
     ]
 
-    const teams = [
-      {
-        icon:"mdi-account-group-outline",
-        title:"Your Team",
-        members: [
-          {
-            src:"#",
-            name:"Mike Harper",
-            role:"Faculty",
-            description:"Professor at Utah Valley University",
-          },
-          {
-            src:"#",
-            name:"Mike Harper",
-            role:"Faculty",
-            description:"Professor at Utah Valley University",
-          }
-        ]
-      }
-    ]
-
     return {
       user,
       assignments,
-      teams,
     }
   }
 }
@@ -158,18 +124,19 @@ export default {
   }
 }
 
+.left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
 .tracker-container {
   display: flex;
-  margin: 2.62rem 0 0 5rem;
+  margin-left: 5rem;
   gap: 3.75rem;
 
-  .this-week-container, .completed-container {
+  .this-week-container {
     width: 15.25rem;
-    height: 12.5rem;
-  }
-  
-  .team-container {
-    width: 25rem;
     height: 12.5rem;
   }
 }

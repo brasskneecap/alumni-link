@@ -98,7 +98,7 @@ export default {
 .upcoming-container {
   width: 63rem;
   height: 40.625rem;
-  margin: 2.66rem 0 0 5rem;
+  margin-left: 5rem;
 }
 
 .upcoming-card {
