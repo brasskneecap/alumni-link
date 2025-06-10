@@ -33,6 +33,7 @@
     },
   })
 </script>
+
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
 
