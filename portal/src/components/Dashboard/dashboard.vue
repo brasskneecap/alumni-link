@@ -24,10 +24,9 @@
             :title="assignment.title"
             :content="assignment.content"
           />
-        </div>      
-        <div class="team-container">
-          <TeamCard />
         </div>
+        <!-- Container for Your Team Section-->
+        <TeamCard />
       </div>
 
       <!-- Upcoming section -->

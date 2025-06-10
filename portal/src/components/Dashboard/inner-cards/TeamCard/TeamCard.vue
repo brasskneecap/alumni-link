@@ -37,15 +37,15 @@ export default {
       const store = useStore()
       const team = [
         {
-          src:"#",
+          src:"/vite.svg",
           name:"Mike Harper",
           role:"Faculty",
           description:"Professor at Utah Valley University",
         },
         {
-          src:"#",
-          name:"Mike Harper",
-          role:"Faculty",
+          src:"uvu-logo.svg",
+          name:"John Doe",
+          role:"Mentor",
           description:"Professor at Utah Valley University",
         }
       ]

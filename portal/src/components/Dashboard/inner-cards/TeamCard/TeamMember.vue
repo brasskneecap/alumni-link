@@ -27,8 +27,8 @@ import { defineProps } from 'vue'
 
 defineProps({
   src: {
-  type: String,
-  default: ''
+    type: String,
+    default: ''
   },
   name: {
     type: String,
