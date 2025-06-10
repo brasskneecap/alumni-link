@@ -1,9 +1,9 @@
 <template>
-  <div class="assignments-tracker">
+  <div class="assignments-tracker al-card">
     <div class="tracker-header">
       <div class="tracker-icon"> 
         <v-icon 
-        :icon="icon"
+        icon="mdi-file-document-multiple-outline"
         class="al-icon"
         size="22">
         </v-icon>
@@ -26,10 +26,6 @@
 import { defineProps } from 'vue'
 
 defineProps({
-  icon: {
-    type: String,
-    default: () => ""
-  },
   title: {
     type: String,
     required: true
@@ -48,6 +44,8 @@ defineProps({
   padding: 0.625rem 0.875rem;
   display: flex;
   flex-direction: column;
+  width: 15.25rem;
+  height: 12.5rem;
 }
 
 .tracker-header {

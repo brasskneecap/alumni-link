@@ -18,13 +18,14 @@
 
       <!-- Tracker section -->
       <div class="tracker-container">
-        <div v-for="assignment in assignments" class="this-week-container al-card">
-          <AssignmentCard
-            :icon="assignment.icon"
-            :title="assignment.title"
-            :content="assignment.content"
-          />
-        </div>
+        <AssignmentCard 
+          title="This Week"
+          content="1/3"
+        />
+        <AssignmentCard 
+          title="Total Completed"
+          content="8/16"
+        />
         <!-- Container for Your Team Section-->
         <TeamCard />
       </div>
@@ -65,23 +66,11 @@ export default {
   },
   setup () {
     const store = useStore()
-
     const user = computed(() => store.getters["user/user"]);
-    const assignments = [
-      {
-        icon:"mdi-file-document-multiple-outline",
-        title:"This Week",
-        content:"1/3"},
-      {
-        icon:"mdi-file-document-multiple-outline",
-        title:"Total Completed",
-        content:"8/16",
-      }
-    ]
+
 
     return {
       user,
-      assignments,
     }
   }
 }
@@ -133,11 +122,6 @@ export default {
   display: flex;
   margin-left: 5rem;
   gap: 3.75rem;
-
-  .this-week-container {
-    width: 15.25rem;
-    height: 12.5rem;
-  }
 }
 
 .right-container {
