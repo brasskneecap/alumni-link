@@ -34,8 +34,8 @@
 </template>
 
 <script setup>
-import TextField from '../input-fields/TextField.vue';
-import PasswordField from '../input-fields/PasswordField.vue';
+import TextField from '../reusables/input-fields/TextField.vue';
+import PasswordField from '../reusables/input-fields/PasswordField.vue';
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 

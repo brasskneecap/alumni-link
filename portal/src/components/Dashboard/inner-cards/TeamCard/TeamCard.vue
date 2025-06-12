@@ -1,38 +1,36 @@
 <template>
-  <div class="team-card al-card">
-    <div class="team-header">
-      <div class="team-icon">
-        <v-icon 
-          icon="mdi-account-group-outline" 
-          class="al-icon" 
-          size="22">
-        </v-icon>
+  <ALCard
+    title="Your Team"
+    icon="mdi-account-group-outline"
+    width="25rem"
+    height="12.5rem"
+  >
+    <template #content>
+      <div class="team-members">
+        <TeamMember 
+          v-for="member in team"
+          :src="member.src"
+          :name="member.name"
+          :role="member.role"
+          :description="member.description"
+        />
       </div>
-      <div class="title-container">
-        <h3 class="team-title">Your Team</h3>
-      </div>
-    </div>
-    <div class="team-members">
-      <TeamMember 
-        v-for="member in team"
-        :src="member.src"
-        :name="member.name"
-        :role="member.role"
-        :description="member.description"
-      />
-    </div>
-  </div>
+    </template>
+  </ALCard>
 </template>
 
 <script>
 import TeamMember from './TeamMember.vue';
-import { computed } from 'vue';
+import ALCard from '../../../reusables/ALCard.vue';
+import { computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
     components: {
+      ALCard,
       TeamMember,
     },
+
     setup () {
       const store = useStore()
       const team = [
@@ -59,14 +57,6 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
-
-.team-card {
-  padding: 0.625rem 0.875rem;
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  height: 12.5rem;
-}
 
 .team-header {
   display: flex;

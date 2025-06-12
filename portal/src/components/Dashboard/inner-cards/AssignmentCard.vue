@@ -1,76 +1,50 @@
 <template>
-  <div class="assignments-tracker al-card">
-    <div class="tracker-header">
-      <div class="tracker-icon"> 
-        <v-icon 
-        icon="mdi-file-document-multiple-outline"
-        class="al-icon"
-        size="22">
-        </v-icon>
+  <ALCard
+    :title="title"
+    icon="mdi-file-document-multiple-outline"
+  >
+    <template #content>
+      <div class="tracker-bottom">
+        <div class="tracker-content">{{ content }}</div>
+        <div class="tracker-subtitle">
+          <p>Assignments Completed</p>
+        </div>
       </div>
-      <div class="title-container">
-        <h3 class="tracker-title">{{ title }}</h3>
-      </div>
-    </div>
-    
-    <div class="tracker-bottom">
-      <div class="tracker-content">{{ content }}</div>
-      <div class="tracker-subtitle">
-        <p>Assignments Completed</p>
-      </div>
-    </div>
-  </div>
+    </template>
+  </ALCard>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
+<script>
+import { toRefs  } from 'vue'
+import ALCard from '../../reusables/ALCard.vue';
 
-defineProps({
-  title: {
-    type: String,
-    required: true
+export default {
+  components: {
+    ALCard,
   },
-  content: {
-    type: String,
-    required: true
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    content: {
+      type: String,
+      required: true
+    }
+  },
+  setup (props) {
+    const { title, content } = toRefs(props)
+
+    return {
+      title,
+      content
+    }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
-
-.assignments-tracker {
-  padding: 0.625rem 0.875rem;
-  display: flex;
-  flex-direction: column;
-  width: 15.25rem;
-  height: 12.5rem;
-}
-
-.tracker-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3rem;
-
-  .tracker-icon {
-    display: flex;
-    align-items: center;
-  }
-
-  .title-container {
-    display: flex;
-    align-items: center;
-    
-    .tracker-title {
-      margin-left: 1rem;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 0;
-    }
-  }
-}
 
 .tracker-bottom {
   margin-top: auto;
