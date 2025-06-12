@@ -19,7 +19,7 @@
       <!-- Tracker section -->
       <div class="tracker-container">
         <AssignmentCard 
-          title="This Week"
+          title="This Week"          
           content="1/3"
         />
         <AssignmentCard 
@@ -61,8 +61,7 @@ export default {
     components: {
       AssignmentCard,
       TeamCard,
-      UpcomingCard
-
+      UpcomingCard,
   },
   setup () {
     const store = useStore()

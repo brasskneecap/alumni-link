@@ -1,49 +1,44 @@
 <template>
-  <div class="upcoming-container al-card upcoming-card">
-    <div class="upcoming-header">
-      <div class="upcoming-icon">
-        <v-icon 
-          icon="mdi-calendar-month-outline" 
-          class="al-icon" 
-          size="22">
-        </v-icon>
+  <ALCard
+    class="upcoming-container"
+    title="UPCOMING"
+    icon="mdi-calendar-month-outline"
+    height="40.625rem"
+    width="63rem"
+  >
+
+    <template #content>
+      <div class="upcoming-items">
+        <UpcomingItem v-for="item in items"
+          :title="item.title"
+          :date="item.date"
+          :tag="item.tag"
+          :description="item.description"
+        />
+
+        <!-- <UpcomingItem v-for="assignment in assignments"
+          :title="assignment.name"
+          :date="assignment.dueDate"
+          :tag="assignment.submission.status"
+          :description="assignment.description"
+        /> -->
+
       </div>
-      <div>
-        <div class="title-container">
-          <h3 class="upcoming-title">UPCOMING</h3>
-        </div>
-      </div>
-    </div>
-
-    <div class="upcoming-items">
-      <UpcomingItem v-for="item in items"
-        :title="item.title"
-        :date="item.date"
-        :tag="item.tag"
-        :description="item.description"
-      />
-
-      <!-- <UpcomingItem v-for="assignment in assignments"
-        :title="assignment.name"
-        :date="assignment.dueDate"
-        :tag="assignment.submission.status"
-        :description="assignment.description"
-      /> -->
-
-    </div>
-  </div>
+    </template>
+  </ALCard>
 </template>
 
 <script>
 // import { defineProps } from 'vue'
 import UpcomingItem from './UpcomingItem.vue';
+import ALCard from '../../../reusables/ALCard.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   components: {
       UpcomingItem,
-
+      ALCard,
   },
 
   setup() {
@@ -96,39 +91,7 @@ export default {
 
 
 .upcoming-container {
-  width: 63rem;
-  height: 40.625rem;
   margin-left: 5rem;
-}
-
-.upcoming-card {
-  padding: 2rem 3.12rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.upcoming-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 2rem;
-
-  .upcoming-icon {
-    display: flex;
-    align-items: center;
-  }
-
-  .title-container {
-    display: flex;
-    align-items: center;
-
-    .upcoming-title {
-      margin-left: 1rem;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 0;
-    }
-  }
 }
 
 .upcoming-items {
