@@ -42,9 +42,7 @@
           <div class="calendar-container al-card">
 
           </div>
-          <div class="blast-container al-card">
-
-          </div>
+          <BlastCard />
         </div>
       </div>
     </div>
@@ -56,12 +54,14 @@ import TeamCard from './inner-cards/TeamCard/TeamCard.vue';
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
+import BlastCard from './inner-cards/BlastCard/BlastCard.vue';
 
 export default {
     components: {
       AssignmentCard,
       TeamCard,
       UpcomingCard,
+      BlastCard
   },
   setup () {
     const store = useStore()
@@ -132,11 +132,6 @@ export default {
   .calendar-container {
     width: 25rem;
     height: 19.8125rem;
-  }
-
-  .blast-container {
-    width: 25rem;
-    height: 33.3125rem;
   }
 }
 
