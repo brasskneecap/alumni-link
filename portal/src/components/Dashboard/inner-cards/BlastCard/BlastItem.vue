@@ -32,8 +32,19 @@
 .blast-item {
     display: flex;
     gap: 1.25rem;
-    margin-bottom: 3.19rem;
-    border-bottom: 1px solid $al-secondary-gray;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 0.62rem;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -0.75rem;
+      right: -0.75rem;
+      height: 1px;
+      background-color: rgba(165, 165, 165, 0.30);
+    }
   
   .blast-date {
     display: flex;
