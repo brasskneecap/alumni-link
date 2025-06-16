@@ -20,11 +20,11 @@
       <div class="tracker-container">
         <AssignmentCard 
           title="This Week"          
-          content="1/3"
+          :content="weeklyCompleted()"
         />
         <AssignmentCard 
           title="Total Completed"
-          content="8/16"
+          :content="weeklyCompleted()"
         />
         <!-- Container for Your Team Section-->
         <TeamCard />
@@ -58,18 +58,33 @@ import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 
 export default {
-    components: {
-      AssignmentCard,
-      TeamCard,
-      UpcomingCard,
+  components: {
+    AssignmentCard,
+    TeamCard,
+    UpcomingCard,
+  },
+  methods: {
+    weeklyCompleted() {
+      let completed = 0
+      this.assignments.forEach((assignment) => {
+        if (assignment.submission) {
+          completed++
+        }
+      });
+      if (this.assignments.length > 0) 
+        return `${completed}/${this.assignments.length}`
+        
+      return ''
+    }
   },
   setup () {
     const store = useStore()
     const user = computed(() => store.getters["user/user"]);
-
+    const assignments = computed(() => store.getters["assignments/assignments"]);
 
     return {
       user,
+      assignments,
     }
   }
 }

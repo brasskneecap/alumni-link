@@ -9,19 +9,12 @@
 
     <template #content>
       <div class="upcoming-items">
-        <UpcomingItem v-for="item in items"
-          :title="item.title"
-          :date="item.date"
-          :tag="item.tag"
-          :description="item.description"
-        />
-
-        <!-- <UpcomingItem v-for="assignment in assignments"
+        <UpcomingItem v-for="assignment in assignments"
           :title="assignment.name"
-          :date="assignment.dueDate"
-          :tag="assignment.submission.status"
+          :date="formatDate(assignment.dueDate)"
+          :tag="assignment.submission ? assignment.submission.status : 'Assignment'"
           :description="assignment.description"
-        /> -->
+        />
 
       </div>
     </template>
@@ -40,46 +33,20 @@ export default {
       UpcomingItem,
       ALCard,
   },
-
+  methods: {
+    formatDate(upcomingDate) {
+      const date = new Date(upcomingDate);
+      const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
+      const day = date.getUTCDate()
+      
+      return `${month} ${day}`
+    }
+  },
   setup() {
     const store = useStore()
     const assignments = computed(() => store.getters["assignments/assignments"]);
-    const items = [
-      {
-        title:"Create LinkedIn Profile and Upload",
-        date:"APRIL 7",
-        tag:"Assignment",
-        description:"Create your LinkedIn profile and upload the link",
-      },
-      {
-        title:"Create LinkedIn Profile and Upload",
-        date:"APRIL 7",
-        tag:"Assignment",
-        description:"Create your LinkedIn profile and upload the link",
-      },
-      {
-        title:"Create LinkedIn Profile and Upload",
-        date:"APRIL 7",
-        tag:"Assignment",
-        description:"Create your LinkedIn profile and upload the link",
-      },
-      {
-        title:"Create LinkedIn Profile and Upload",
-        date:"APRIL 7",
-        tag:"Assignment",
-        description:"Create your LinkedIn profile and upload the link",
-      },
-      {
-        title:"Create LinkedIn Profile and Upload",
-        date:"APRIL 7",
-        tag:"Assignment",
-        description:"Create your LinkedIn profile and upload the link",
-      },
-    ]
-    
-    console.log(assignments)
+
     return {
-      items,
       assignments,
     }
   }
