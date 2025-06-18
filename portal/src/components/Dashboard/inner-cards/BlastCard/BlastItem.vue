@@ -32,9 +32,8 @@
 .blast-item {
     display: flex;
     gap: 1.25rem;
-    margin-bottom: 2rem;
     position: relative;
-    padding-bottom: 0.62rem;
+    padding: 1.3rem 0;
     
     &::after {
       content: '';
