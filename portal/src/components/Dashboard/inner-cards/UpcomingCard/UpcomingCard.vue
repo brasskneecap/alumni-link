@@ -39,7 +39,8 @@ export default {
       const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
       const day = date.getUTCDate()
       
-      return `${month} ${day}`
+      const formattedDate = `${month} ${day}`
+      return formattedDate.toUpperCase()
     }
   },
   setup() {
