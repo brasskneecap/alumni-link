@@ -8,7 +8,7 @@
   >
 
     <template #content>
-      <div class="blast-items">
+      <div>
         <BlastItem v-for="item in items"
           :date="item.date"
           :title="item.title"
@@ -76,7 +76,7 @@ export default {
 @use '@/variables.scss' as *;
 
 .blast-container {
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 
