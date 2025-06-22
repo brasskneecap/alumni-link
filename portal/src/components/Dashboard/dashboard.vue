@@ -1,7 +1,5 @@
 <template>
   <div class="dashboard-container">
-    <div class="notif-profile-container">
-    </div>
 
     <!-- Left Side Content -->
     <div class="left-side">
@@ -10,9 +8,6 @@
          <div class="welcome-container">
           <h2>Welcome Back, {{ user.name }}</h2>
           <p>Take a look at your progress</p>
-        </div>
-        <div class="profile-container">
-
         </div>
       </div>
 
@@ -82,16 +77,6 @@ export default {
   display: flex;
   flex-direction: row;
   min-height: 69.8125rem;
-}
-
-.notif-profile-container {
-  background-color: grey;
-  width: 7rem;
-  height: 3.75rem;
-  position: absolute;
-  right: 0;
-  margin-top: 1.88rem;
-  margin-right: 4.5rem;
 }
 
 .header-container {
