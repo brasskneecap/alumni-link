@@ -39,9 +39,7 @@ const getters = {
 // actions
 const actions = {
   async getBlasts ({ commit }, groups) {
-    console.log(groups[0])
     const blasts = await BlastService.getBlasts({groupId: groups[0]})
-    console.log('BLASTS', blasts)
     commit('SET_BLASTS', blasts)
   }
 }

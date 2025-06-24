@@ -19,7 +19,7 @@
         />
         <AssignmentCard 
           title="Total Completed"
-          :content="weeklyCompleted()"
+          :content="totalCompleted()"
         />
         <!-- Container for Your Team Section-->
         <TeamCard />
@@ -59,17 +59,49 @@ export default {
     BlastCard
   },
   methods: {
-    weeklyCompleted() {
+    totalCompleted() {
       let completed = 0
       this.assignments.forEach((assignment) => {
         if (assignment.submission) {
           completed++
         }
       });
-      if (this.assignments.length > 0) 
-        return `${completed}/${this.assignments.length}`
-        
-      return ''
+      
+      return `${completed}/${this.assignments.length}`
+    },
+    weeklyCompleted() {
+      const now = new Date()
+      const currentDay = now.getUTCDay()
+      
+      const daysSinceMonday = currentDay === 0 ? 6 : currentDay - 1
+
+      const startOfWeek = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - daysSinceMonday,
+        0, 0, 0, 0
+      ))
+      const endOfWeek = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - daysSinceMonday + 6,
+        23, 59, 59, 999
+      ))
+
+      const weeklyAssignments = this.assignments.filter((assignment) => {
+        const dueDate = new Date(assignment.dueDate)
+        return dueDate >= startOfWeek && dueDate <= endOfWeek
+      })
+
+      let completed = 0
+
+      weeklyAssignments.forEach((assignment) => {
+        if (assignment.submission) {
+          completed++
+        }
+      });
+
+      return `${completed}/${weeklyAssignments.length}`  
     },
   },
   setup () {

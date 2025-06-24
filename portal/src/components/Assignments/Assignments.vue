@@ -27,8 +27,7 @@ export default {
     const store = useStore()
     
     const assignments = computed(() => store.getters["assignments/assignments"]);
-
-    console.log(assignments)
+    
     return {
       assignments
     }

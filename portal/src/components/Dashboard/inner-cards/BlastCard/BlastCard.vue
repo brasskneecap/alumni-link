@@ -36,7 +36,6 @@ export default {
   setup() {
     const store = useStore();
     const blasts = computed(() => store.getters["blasts/blasts"]);
-    console.log(blasts)
 
     return {
       blasts,
