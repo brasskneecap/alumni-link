@@ -27,21 +27,12 @@ import UpcomingItem from './UpcomingItem.vue';
 import ALCard from '../../../reusables/ALCard.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { formatDate } from '@/utils/formatters';
 
 export default {
   components: {
       UpcomingItem,
       ALCard,
-  },
-  methods: {
-    formatDate(upcomingDate) {
-      const date = new Date(upcomingDate);
-      const month = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
-      const day = date.getUTCDate()
-      
-      const formattedDate = `${month} ${day}`
-      return formattedDate.toUpperCase()
-    }
   },
   setup() {
     const store = useStore()
@@ -49,6 +40,7 @@ export default {
 
     return {
       assignments,
+      formatDate,
     }
   }
 }
