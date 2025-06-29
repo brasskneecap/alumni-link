@@ -36,6 +36,7 @@ const actions = {
 
     await dispatch('assignments/getStudentAssignments', assignmentPayload, {root: true})
     await dispatch('blasts/getBlasts', state.user.groups, {root: true})
+    await dispatch('users/getUsers', state.user.groups, {root: true})
   }
 }
 

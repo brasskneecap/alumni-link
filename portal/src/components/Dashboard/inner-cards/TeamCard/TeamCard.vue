@@ -8,11 +8,11 @@
     <template #content>
       <div class="team-members">
         <TeamMember 
-          v-for="member in team"
-          :src="member.src"
+          v-for="member in getTeam()"
+          :src="member.profilePicture"
           :name="member.name"
           :role="member.role"
-          :description="member.description"
+          :description="`${member.role} at ${member.school}`"
         />
       </div>
     </template>
@@ -31,6 +31,13 @@ export default {
       TeamMember,
     },
 
+    methods: {
+      getTeam() {
+        const facultyRoles = ['Mentor', 'Faculty']
+        const team = this.users.filter(user => facultyRoles.includes(user.role))
+        return team
+      },  
+    },
     setup () {
       const store = useStore()
       const team = [
@@ -48,8 +55,12 @@ export default {
         }
       ]
 
+      const users = computed(() => store.getters["users/users"]);
+      
+      console.log('USERS', users)
       return {
         team,
+        users,
       }
     }
 }
