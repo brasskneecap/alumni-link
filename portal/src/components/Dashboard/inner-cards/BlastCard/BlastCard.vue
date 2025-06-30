@@ -9,10 +9,10 @@
 
     <template #content>
       <div>
-        <BlastItem v-for="item in items"
-          :date="item.date"
-          :title="item.title"
-          :description="item.description"
+        <BlastItem v-for="blast in blasts"
+          :date="formatDate(blast.createdAt)"
+          :title="blast.title"
+          :description="blast.description"
         />
       </div>
      </template> 
@@ -26,46 +26,20 @@ import ALCard from '../../../reusables/ALCard.vue';
 
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { formatDate } from '@/utils/formatters';
 
 export default {
   components: {
     BlastItem,
     ALCard,
   },
-
   setup() {
     const store = useStore();
     const blasts = computed(() => store.getters["blasts/blasts"]);
-    const items = [
-      {
-        date: "JUNE 1",
-        title: "Review Session Extended",
-        description: "For those of you that haven't signed up for the review session,",
-      },
-      {
-        date: "MAY 16",
-        title: "A Cool Ted Talk that is worth watching",
-        description: "Create at least 3 user flows related to the video.",
-      },
-      {
-        date: "MAY 3",
-        title: "Calendar Update",
-        description: "Please check the calendar for the latest updates on upcoming events.",
-      },
-      {
-        date: "APRIL 10",
-        title: "Check out this article!",
-        description: "Design thinking is not a linear process, but rather a flexible and iterative approach to problem-solving.",
-      },
-      {
-        date: "APRIL 6",
-        title: "Welcome Message",
-        description: "I'm your assigned Alumni mentor for this semester.",
-      },
-    ]
 
     return {
-      items,
+      blasts,
+      formatDate,
     };
   },
 };

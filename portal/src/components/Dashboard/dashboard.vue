@@ -15,11 +15,11 @@
       <div class="tracker-container">
         <AssignmentCard 
           title="This Week"          
-          content="1/3"
+          :content="weeklyCompleted()"
         />
         <AssignmentCard 
           title="Total Completed"
-          content="8/16"
+          :content="totalCompleted()"
         />
         <!-- Container for Your Team Section-->
         <TeamCard />
@@ -52,19 +52,66 @@ import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 import BlastCard from './inner-cards/BlastCard/BlastCard.vue';
 
 export default {
-    components: {
-      AssignmentCard,
-      TeamCard,
-      UpcomingCard,
-      BlastCard
+  components: {
+    AssignmentCard,
+    TeamCard,
+    UpcomingCard,
+    BlastCard
+  },
+  methods: {
+    totalCompleted() {
+      let completed = 0
+      this.assignments.forEach((assignment) => {
+        if (assignment.submission) {
+          completed++
+        }
+      });
+      
+      return `${completed}/${this.assignments.length}`
+    },
+    weeklyCompleted() {
+      const now = new Date()
+      const currentDay = now.getUTCDay()
+      
+      const daysSinceMonday = currentDay === 0 ? 6 : currentDay - 1
+
+      const startOfWeek = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - daysSinceMonday,
+        0, 0, 0, 0
+      ))
+      const endOfWeek = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - daysSinceMonday + 6,
+        23, 59, 59, 999
+      ))
+
+      const weeklyAssignments = this.assignments.filter((assignment) => {
+        const dueDate = new Date(assignment.dueDate)
+        return dueDate >= startOfWeek && dueDate <= endOfWeek
+      })
+
+      let completed = 0
+
+      weeklyAssignments.forEach((assignment) => {
+        if (assignment.submission) {
+          completed++
+        }
+      });
+
+      return `${completed}/${weeklyAssignments.length}`  
+    },
   },
   setup () {
     const store = useStore()
     const user = computed(() => store.getters["user/user"]);
-
+    const assignments = computed(() => store.getters["assignments/assignments"]);
 
     return {
       user,
+      assignments,
     }
   }
 }
