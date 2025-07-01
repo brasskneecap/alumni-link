@@ -1,11 +1,13 @@
 <template>
   <v-list lines="two" class="container">
-    <v-list-header class="header">WEEK 1</v-list-header>
+    <v-list-subheader class="header">WEEK 1</v-list-subheader>
     <template v-for="(item, i) in assignments" :key="i">
       <v-list-item
         :value="item"
         :date="item.dueDate"
         color="primary"
+        rounded="lg"
+        class="border-b-sm"
       >
         <template #prepend>
           <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20" ></v-icon>
@@ -18,7 +20,6 @@
           <span>Due {{ formatDateMDY(item.dueDate) }}</span>
         </template>
       </v-list-item>
-      <v-divider />
     </template>
   </v-list>
 </template>
@@ -29,7 +30,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 // import { formatDate } from '@/utils/formatters' //will work once the formatDate file is merged
-
+ 
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
 
@@ -53,7 +54,7 @@ function formatDateMDY(dateStr) {
 
 .header {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 600;  
 }
 
 :deep(.al-icon.icon) {
