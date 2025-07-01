@@ -16,15 +16,21 @@ func SetupRouter(client *firestore.Client) *mux.Router {
 	userHandler := &handlers.UserHandler{
 		Client: client,
 	}
+	handlers.RegisterUserRoutes(userRouter, userHandler)
 
 	// Assignments Routes
 	assignmentsRouter := router.PathPrefix("/assignments").Subrouter()
 	assignmentsHandler := &handlers.AssignmentsHandler{
 		Client: client,
 	}
-
-	handlers.RegisterUserRoutes(userRouter, userHandler)
 	handlers.RegisterAssignmentsRoutes(assignmentsRouter, assignmentsHandler)
+
+	// Blasts Routes
+	blastsRouter := router.PathPrefix("/blasts").Subrouter()
+	blastsHandler := &handlers.BlastsHandler{
+		Client: client,
+	}
+	handlers.RegisterBlastsRoutes(blastsRouter, blastsHandler)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

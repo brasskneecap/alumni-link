@@ -39,9 +39,7 @@ const getters = {
 // actions
 const actions = {
   async getStudentAssignments ({ commit }, {id, mentorId, groups}) {
-    console.log(id, mentorId, groups[0])
     const assignments = await AssignmentService.getStudentAssignments({id, groupId: groups[0]})
-    console.log(assignments)
     commit('SET_ASSIGNMENTS', assignments)
   }
 }
