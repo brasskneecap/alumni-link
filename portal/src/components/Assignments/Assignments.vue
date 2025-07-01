@@ -1,28 +1,30 @@
 <template>
-  <div>
-
-  </div>
-  <div>
-    <div>
-      {{ assignments[0].name }}
-      Due Date: {{ assignments[0].dueDate }}
-    </div>
-    <div>
-      Profile Card (profile.information)
-    </div>
-    <div>
-      Description (description)
-    </div>
-    <div>
-      submission card (type)
-    </div>
-  </div>
+  <ALCard
+    class="assignments-container"
+    title="UPCOMING ASSIGNMENTS"
+    icon="mdi-calendar-month-outline"
+    height="59.875rem"
+    width="96.375rem"
+  >
+  
+    <template #content>
+      <AssignmentsList />
+    </template>
+  </ALCard>
 </template>
 
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex'
+import ALCard from '../reusables/ALCard.vue';
+import AssignmentsList from './AssignmentsList.vue'; 
+
 export default {
+  components: {
+  ALCard,
+  AssignmentsList,
+  
+  },
   setup() {
     const store = useStore()
     
@@ -34,3 +36,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@use '@/variables.scss' as *;
+
+.assignments-container {
+  margin: 7.12rem 2rem 2.81rem 2rem;
+}
+
+</style>
