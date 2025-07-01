@@ -31,22 +31,32 @@
       </div>
     </div>
 
-      <div class="right-side">
-        <!-- calendar and blast -->
-        <div class="right-container">
-          <div class="calendar-container al-card">
-
-          </div>
-          <BlastCard />
+    <div class="right-side">
+      <!-- calendar and blast -->
+      <div class="right-container">
+        <div class="calendar-container al-card">
+          <v-date-picker-month
+          >
+            <template #day="{props, item}">
+              <div
+                class="day-cell"
+                @click="onDayClick(props)"
+              >
+                {{ new Date(item.date).getDate() }}
+              </div>
+            </template>
+          </v-date-picker-month>
         </div>
+        <BlastCard />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import AssignmentCard from './inner-cards/AssignmentCard.vue';
 import TeamCard from './inner-cards/TeamCard/TeamCard.vue';
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 import BlastCard from './inner-cards/BlastCard/BlastCard.vue';
@@ -103,15 +113,21 @@ export default {
 
       return `${completed}/${weeklyAssignments.length}`  
     },
+    onDayClick(date) {
+      // Handle day click event
+      console.log("Clicked on date:", date);
+    },
   },
   setup () {
     const store = useStore()
     const user = computed(() => store.getters["user/user"]);
     const assignments = computed(() => store.getters["assignments/assignments"]);
+    const selectedDate = ref(new Date().toISOString().slice(0, 10))
 
     return {
       user,
       assignments,
+      selectedDate,
     }
   }
 }
@@ -163,8 +179,28 @@ export default {
 
   .calendar-container {
     width: 25rem;
-    height: 19.8125rem;
+    height: 22rem;
   }
 }
 
+.day-cell {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: lightblue !important;
+  cursor: pointer;
+}
+.past-day {
+  color: gray;
+}
+.active-day {
+  background-color: lightblue !important;
+  border-radius: 50%;
+}
+.disabled-day {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 </style>
