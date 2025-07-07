@@ -34,19 +34,7 @@
     <div class="right-side">
       <!-- calendar and blast -->
       <div class="right-container">
-        <div class="calendar-container al-card">
-          <v-date-picker-month
-          >
-            <template #day="{props, item}">
-              <div
-                class="day-cell"
-                @click="onDayClick(props)"
-              >
-                {{ new Date(item.date).getDate() }}
-              </div>
-            </template>
-          </v-date-picker-month>
-        </div>
+        <CalendarCard />
         <BlastCard />
       </div>
     </div>
@@ -60,13 +48,15 @@ import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 import BlastCard from './inner-cards/BlastCard/BlastCard.vue';
+import CalendarCard from './inner-cards/CalendarCard/CalendarCard.vue';
 
 export default {
   components: {
     AssignmentCard,
     TeamCard,
     UpcomingCard,
-    BlastCard
+    BlastCard,
+    CalendarCard,
   },
   methods: {
     totalCompleted() {
@@ -113,21 +103,15 @@ export default {
 
       return `${completed}/${weeklyAssignments.length}`  
     },
-    onDayClick(date) {
-      // Handle day click event
-      console.log("Clicked on date:", date);
-    },
   },
   setup () {
     const store = useStore()
     const user = computed(() => store.getters["user/user"]);
     const assignments = computed(() => store.getters["assignments/assignments"]);
-    const selectedDate = ref(new Date().toISOString().slice(0, 10))
-
+    
     return {
       user,
       assignments,
-      selectedDate,
     }
   }
 }
@@ -180,6 +164,22 @@ export default {
   .calendar-container {
     width: 25rem;
     height: 22rem;
+
+    .calendar-header {
+     display: flex;
+     justify-content: space-between;
+     padding: 18px 30px 9px 30px;
+
+     .calendar-title {
+       font-size: 20px;
+       font-weight: 600;
+     }
+
+     .calendar-nav {
+        display: flex;
+        gap: 12px;
+     }
+    }
   }
 }
 
@@ -189,7 +189,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: lightblue !important;
   cursor: pointer;
 }
 .past-day {
