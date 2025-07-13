@@ -57,7 +57,6 @@ export default {
 
       const users = computed(() => store.getters["users/users"]);
       
-      console.log('USERS', users)
       return {
         team,
         users,

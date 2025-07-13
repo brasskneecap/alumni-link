@@ -14,8 +14,6 @@ const getters = {
 const actions = {
   async getUsers ({ commit, dispatch, state }, groups) {
     const users = await UsersService.getUsers(groups)
-    // commit('SET_USERS', user)
-    console.log('Users', users)
     commit('SET_USERS', users)
   }
 }

@@ -25,6 +25,11 @@
         <template #day="{props, item}">
           <div
             class="day-cell"
+            :class="{
+              // 'has-event': hasEvent(item.date),
+              'is-selected': isSelected(item.date),
+              'is-today': isToday(item.date)
+            }"
             @click="onDayClick(props)"
           >
             {{ new Date(item.date).getDate() }}
@@ -45,10 +50,6 @@ export default {
       newDate.setDate(1)
       this.calendarMonth = newDate
     },
-    onDayClick(date) {
-      // Handle day click event
-      console.log("Clicked on date:", date);
-    },
   },
   setup () {
     const selectedDate = ref(new Date().toISOString().slice(0, 10))
@@ -61,12 +62,40 @@ export default {
       return `${dateMonth}  ${dateYear}`
     });
     
+    // const hasEvent = (dateStr) => {
+    //   return eventDates.value.includes(dateStr.slice(0, 10)) // normalize to YYYY-MM-DD
+    // }
+
+    const isSelected = (date) => {
+      const dateStr = new Date(date).toISOString().slice(0, 10)
+      return selectedDate.value === dateStr
+    }
+
+    const isToday = (date) => {
+      const dateStr = new Date(date).toISOString().slice(0, 10)
+      const today = new Date().toISOString().slice(0, 10)
+      return dateStr.slice(0, 10) === today
+    }
+
+    const onDayClick = (day) => {
+      const year = calendarMonth.value.getFullYear()
+      const month = calendarMonth.value.getMonth()
+
+      const fullDate = new Date(year, month, day.text) 
+      const dateStr = fullDate.toISOString().slice(0, 10)
+
+      selectedDate.value = dateStr
+    }
 
     return {
       selectedDate,
       calendarMonth,
       displayedMonth,
       calendarHeader,
+      onDayClick,
+      // hasEvent,
+      isToday,
+      isSelected,
     }
   }
 }
@@ -92,6 +121,35 @@ export default {
       display: flex;
       gap: 12px;
     }
+  }
+}
+
+.day-cell {
+  border-radius: 16px;
+  line-height: 3rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &.has-event {
+    background-color: rgba(25, 118, 210, 0.1);
+    border: 1px solid #1976d2;
+    color: #1976d2;
+  }
+
+  &.is-selected {
+    background-color: rgba(25, 118, 210, 0.15);
+    color: white;
+    font-weight: bold;
+  }
+
+  &.is-today {
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+  }
+
+  &:hover {
+    background-color: rgba(25, 118, 210, 0.15);
   }
 }
 </style>
