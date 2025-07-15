@@ -1,39 +1,39 @@
 <template>
   <ALCard
     class="assignments-container"
-    title="UPCOMING ASSIGNMENTS"
+    title="ASSIGNMENTS"
     icon="mdi-calendar-month-outline"
     height="59.875rem"
     width="96.375rem"
   >
   
     <template #content>
-      <AssignmentsList />
+      <div class="assignments-flex">
+        <AssignmentsList @show-assignment-view="handleShowAssignmentView" />
+        <AssignmentsView v-if="isVisible" :assignment="selectedAssignment" :teamMember="selectedTeamMember"/>
+      </div>
     </template>
   </ALCard>
 </template>
 
-<script>
-import { computed } from 'vue';
-import { useStore } from 'vuex'
-import ALCard from '../reusables/ALCard.vue';
-import AssignmentsList from './AssignmentsList.vue'; 
+<script setup>
+import { ref, computed } from 'vue'
+import ALCard from '../reusables/ALCard.vue'
+import AssignmentsList from './AssignmentsList.vue'
+import AssignmentsView from './AssignmentsView.vue'
 
-export default {
-  components: {
-  ALCard,
-  AssignmentsList,
-  
-  },
-  setup() {
-    const store = useStore()
-    
-    const assignments = computed(() => store.getters["assignments/assignments"]);
-    
-    return {
-      assignments
-    }
-  }
+const isVisible = ref(false)
+const selectedAssignment = ref(null)
+const selectedTeamMember = ref({
+  profilePicture: '/path/to/image.jpg',
+  name: 'John Doe',
+  role: 'Developer',
+  school: 'Utah Valley University'
+});
+
+function handleShowAssignmentView(assignment) {
+  selectedAssignment.value = assignment
+  isVisible.value = true
 }
 </script>
 
@@ -44,4 +44,18 @@ export default {
   margin: 7.12rem 2rem 2.81rem 2rem;
 }
 
+.assignments-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+.assignments-flex > *:first-child {
+  flex: 0 0 32rem;
+}
+
+.assignments-flex > *:last-child {
+  flex: 1 1 0;
+}
 </style>
