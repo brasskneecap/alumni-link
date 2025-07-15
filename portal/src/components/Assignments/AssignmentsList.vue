@@ -2,7 +2,7 @@
   <v-list lines="two" class="container">
     <v-list-subheader class="header">WEEK 1</v-list-subheader>
     <template v-for="(item, i) in assignments" :key="i">
-      <v-list-item
+      <v-list-item v-ripple="false"
         @click="toggleAssignment(item)"
         :value="item"
         :date="item.dueDate"
@@ -34,7 +34,7 @@ const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
 
 function toggleAssignment(item) {
-  emit('show-assignment-view', item);
+  emit('show-assignment-view', item); 
 }
 
 function formatDateMDY(dateStr) {

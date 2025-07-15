@@ -10,7 +10,7 @@
     <template #content>
       <div class="assignments-flex">
         <AssignmentsList @show-assignment-view="handleShowAssignmentView" />
-        <AssignmentsView v-if="isVisible" :assignment="selectedAssignment" />
+        <AssignmentsView v-if="isVisible" :assignment="selectedAssignment" :teamMember="selectedTeamMember"/>
       </div>
     </template>
   </ALCard>
@@ -24,6 +24,12 @@ import AssignmentsView from './AssignmentsView.vue'
 
 const isVisible = ref(false)
 const selectedAssignment = ref(null)
+const selectedTeamMember = ref({
+  profilePicture: '/path/to/image.jpg',
+  name: 'John Doe',
+  role: 'Developer',
+  school: 'Utah Valley University'
+});
 
 function handleShowAssignmentView(assignment) {
   selectedAssignment.value = assignment
