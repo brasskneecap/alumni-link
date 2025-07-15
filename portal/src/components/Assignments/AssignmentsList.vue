@@ -2,7 +2,8 @@
   <v-list lines="two" class="container">
     <v-list-subheader class="header">WEEK 1</v-list-subheader>
     <template v-for="(item, i) in assignments" :key="i">
-      <v-list-item
+      <v-list-item v-ripple="false"
+        @click="toggleAssignment(item)"
         :value="item"
         :date="item.dueDate"
         color="primary"
@@ -24,15 +25,17 @@
   </v-list>
 </template>
 
-<!-- :date="formatDate(item.dueDate)" for later -->
-
 <script setup>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-// import { formatDate } from '@/utils/formatters' //will work once the formatDate file is merged
- 
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const emit = defineEmits(['show-assignment-view'])
+
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
+
+function toggleAssignment(item) {
+  emit('show-assignment-view', item); 
+}
 
 function formatDateMDY(dateStr) {
   const date = new Date(dateStr);
@@ -48,13 +51,14 @@ function formatDateMDY(dateStr) {
 @use '@/variables.scss' as *;
 
 .container {
-  width: 30.1875rem;
+  max-width: 30.1875rem;
   margin: 1.25rem 0 0 0.5rem;
 }
 
 .header {
   font-size: 16px;
   font-weight: 600;  
+  color: black;
 }
 
 :deep(.al-icon.icon) {

@@ -26,5 +26,5 @@ dist-ssr
 api/tmp/
 
 package-lock.json
-api/config/test-project-252419-546c6c865d47.json
 api/cmd/al-api.exe
+api/config/testcreds.json

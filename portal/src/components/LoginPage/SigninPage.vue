@@ -28,6 +28,7 @@
     </div>
     <v-btn 
       rounded="xl"
+      v-ripple="false"
       class=" login-btn text-subtitle-1 font-weight-medium"
       @click="handleLogin()">Login</v-btn>
   </div>
