@@ -6,7 +6,6 @@ import './variables.scss'
 import App from './App.vue'
 import { createVuetify } from 'vuetify'
 import { VCalendar } from 'vuetify/labs/VCalendar'
-import { VIconBtn } from 'vuetify/labs/VIconBtn'
 import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
 
@@ -17,7 +16,6 @@ const vuetify = createVuetify({
   },
   components: {
     VCalendar,
-    VIconBtn,
   },
 })
 
