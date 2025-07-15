@@ -31,32 +31,32 @@
       </div>
     </div>
 
-      <div class="right-side">
-        <!-- calendar and blast -->
-        <div class="right-container">
-          <div class="calendar-container al-card">
-
-          </div>
-          <BlastCard />
-        </div>
+    <div class="right-side">
+      <!-- calendar and blast -->
+      <div class="right-container">
+        <CalendarCard />
+        <BlastCard />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import AssignmentCard from './inner-cards/AssignmentCard.vue';
 import TeamCard from './inner-cards/TeamCard/TeamCard.vue';
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import UpcomingCard from './inner-cards/UpcomingCard/UpcomingCard.vue';
 import BlastCard from './inner-cards/BlastCard/BlastCard.vue';
+import CalendarCard from './inner-cards/CalendarCard/CalendarCard.vue';
 
 export default {
   components: {
     AssignmentCard,
     TeamCard,
     UpcomingCard,
-    BlastCard
+    BlastCard,
+    CalendarCard,
   },
   methods: {
     totalCompleted() {
@@ -108,7 +108,7 @@ export default {
     const store = useStore()
     const user = computed(() => store.getters["user/user"]);
     const assignments = computed(() => store.getters["assignments/assignments"]);
-
+    
     return {
       user,
       assignments,
@@ -163,8 +163,43 @@ export default {
 
   .calendar-container {
     width: 25rem;
-    height: 19.8125rem;
+    height: 22rem;
+
+    .calendar-header {
+     display: flex;
+     justify-content: space-between;
+     padding: 18px 30px 9px 30px;
+
+     .calendar-title {
+       font-size: 20px;
+       font-weight: 600;
+     }
+
+     .calendar-nav {
+        display: flex;
+        gap: 12px;
+     }
+    }
   }
 }
 
+.day-cell {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.past-day {
+  color: gray;
+}
+.active-day {
+  background-color: lightblue !important;
+  border-radius: 50%;
+}
+.disabled-day {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 </style>

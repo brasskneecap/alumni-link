@@ -3,7 +3,7 @@
     class="upcoming-container"
     title="UPCOMING"
     icon="mdi-calendar-month-outline"
-    height="40.625rem"
+    height="40.875rem"
     width="63rem"
   >
 

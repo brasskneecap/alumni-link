@@ -3,7 +3,7 @@
     class="blast-container"
     title="Blast"
     icon="mdi-bullhorn-outline"
-    height="33.3125rem"
+    height="31.3125rem"
     width="25rem"
   >
 
