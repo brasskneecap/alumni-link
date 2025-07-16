@@ -15,10 +15,38 @@
       />
       <p class="description">{{ assignment.description }}</p>
     </div>
+    
     <div>
       <h2 class="subtitle">Submit Assignment</h2>
+      <v-card class="elevation-0">
+        <v-tabs
+          v-model="tab"
+          align-tabs="start"
+        >
+          <v-tab class="text-none" v-ripple="false" :value="1">Text</v-tab>
+          <v-tab class="text-none" v-ripple="false" :value="2">Upload Document</v-tab>
+          <v-tab class="text-none" v-ripple="false" :value="3">URL</v-tab>
+        </v-tabs>
+        <v-tabs-window v-model="tab">
+          <v-tabs-window-item
+            v-for="n in 3"
+            :key="n"
+            :value="n"
+          >
+            <v-textarea v-if="n === 1" label="Upload Document" variant="outlined"></v-textarea>
+            <v-file-upload v-else-if="n === 2" 
+              density="comfortable" 
+              variant="comfortable"
+              title="Drag and drop your files here, or click to browse"
+              icon="mdi-tray-arrow-up"
+            ></v-file-upload>
+            <v-text-field v-else-if="n === 3" label="Enter URL" variant="outlined"></v-text-field>
+          </v-tabs-window-item>
+        </v-tabs-window>
+      </v-card>
     </div>
   </div>
+
   <div class="feedback">
     <v-btn variant="outlined" v-ripple="false" class="text-none">
       Feedback
@@ -26,12 +54,19 @@
   </div>
 </template>
 
+
 <script setup>
 import TeamMember from '../Dashboard/inner-cards/TeamCard/TeamMember.vue';
+import { ref, shallowRef } from 'vue'
+import { VFileUpload } from 'vuetify/labs/VFileUpload'
+
+const density = shallowRef('default')
+const tab = ref(null)
 const props = defineProps({
   assignment: Object,
   teamMember: Object
 });
+
 function formatDateMDY(dateStr) {
   const date = new Date(dateStr)
   const month = String(date.getMonth() + 1)
