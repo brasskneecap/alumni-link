@@ -1,6 +1,6 @@
 <template>
   <v-list lines="two" class="container">
-    <v-list-subheader class="header">WEEK 1</v-list-subheader>
+    <v-list-subheader class="header">MONTH 1</v-list-subheader>
     <template v-for="(item, i) in assignments" :key="i">
       <v-list-item v-ripple="false"
         @click="toggleAssignment(item)"

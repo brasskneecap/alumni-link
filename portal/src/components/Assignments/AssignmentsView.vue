@@ -2,10 +2,6 @@
   <div>
     <div>
       <h1 class="title">{{ assignment.name }}</h1>
-      <div class="dueDate">
-        <v-icon icon="mdi-calendar-month-outline" size="24"/>
-        <p>Due {{ formatDateMDY(assignment.dueDate) }}</p>
-      </div>
       <TeamMember
         v-if="teamMember"
         :src="teamMember.profilePicture"
@@ -15,6 +11,20 @@
       />
       <p class="description">{{ assignment.description }}</p>
     </div>
+
+    <div class="infoContainer">
+      <div class="info">
+        <v-icon class="infoIcon al-icon" icon="mdi-calendar-month-outline" size="24"/>
+        <p>Due {{ formatDateMDY(assignment.dueDate) }}</p>
+      </div>
+      <div class="info">
+        <v-icon class="infoIcon al-icon" icon="mdi-folder-outline" size="24"/>
+        <div>
+          <p class="submitPar">Submission Type</p>
+          <p class="anyPar">Any</p>
+        </div>
+      </div>
+    </div>
     
     <div>
       <h2 class="subtitle">Submit Assignment</h2>
@@ -22,18 +32,23 @@
         <v-tabs
           v-model="tab"
           align-tabs="start"
+          slider-color="#B8D3FF"
+          class="tabs"
         >
           <v-tab class="text-none" v-ripple="false" :value="1">Text</v-tab>
           <v-tab class="text-none" v-ripple="false" :value="2">Upload Document</v-tab>
           <v-tab class="text-none" v-ripple="false" :value="3">URL</v-tab>
         </v-tabs>
-        <v-tabs-window v-model="tab">
+
+        <p class="chooseText">Choose a submission type</p>
+
+        <v-tabs-window class="tabWindow" v-model="tab">
           <v-tabs-window-item
             v-for="n in 3"
             :key="n"
             :value="n"
           >
-            <v-textarea v-if="n === 1" label="Upload Document" variant="outlined"></v-textarea>
+            <v-textarea v-if="n === 1" variant="solo" class="textArea"></v-textarea>
             <v-file-upload v-else-if="n === 2" 
               density="comfortable" 
               variant="comfortable"
@@ -43,13 +58,25 @@
             <v-text-field v-else-if="n === 3" label="Enter URL" variant="outlined"></v-text-field>
           </v-tabs-window-item>
         </v-tabs-window>
+
+        <v-btn 
+          variant="flat" 
+          v-ripple="false" 
+          class="submit 
+          text-none" 
+          color="#DEEAFC"
+          rounded="xl"
+        >
+          Submit Assignment
+        </v-btn>
+
       </v-card>
     </div>
   </div>
 
   <div class="feedback">
     <v-btn variant="outlined" v-ripple="false" class="text-none">
-      Feedback
+      Message Alumni
     </v-btn>
   </div>
 </template>
@@ -76,28 +103,86 @@ function formatDateMDY(dateStr) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use '@/variables.scss' as *;
+
+:deep(.v-btn__content),
+:deep(.v-tab__content) {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.v-btn:focus,
+.v-tab:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .title {
   font-size: 24px;
   font-weight: 700;
 }
-.dueDate {
+
+.infoContainer {
   display: flex;
-  align-items: center;
-  font-size: 24px;
-  color: $al-secondary-gray;
-  gap: 0.3rem;
-  margin: 0.5rem 0 1.8rem 0;
+  flex-direction: row;
+  gap: 2rem;
+
+    .info {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: $al-secondary-gray;
+    gap: 0.3rem;
+    margin: 3rem 0 4rem 0;
+
+    .infoIcon {
+      padding: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    .submitPar {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .typePar {
+      font-size: 18px;
+      font-weight: 500;
+      color: black;
+    }
+  }
 }
+
 .description {
-  margin-top: 2.3rem;
+  margin-top: 1rem;
 }
+
+.tabs {
+  margin: 1.5rem 0 2rem 0;
+  border-bottom: 1px solid $al-gray;
+  max-width: 22.5rem;
+}
+
+.chooseText {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.textArea {
+  margin: 0.1rem;
+}
+
+.tabWindow {
+  margin-top: 2rem;
+  width: 40rem;
+}
+
 .subtitle {
   font-size: 16px;
   font-weight: 500;
   margin-top: 1.5rem;
 }
+
 .feedback {
   display: flex;
   justify-content: flex-end;
