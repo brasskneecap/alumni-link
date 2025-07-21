@@ -125,7 +125,7 @@ function formatDateMDY(dateStr) {
 .infoContainer {
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 4rem;
 
     .info {
     display: flex;
