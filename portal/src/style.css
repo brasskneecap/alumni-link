@@ -81,6 +81,16 @@ button:focus-visible {
   color: #4065DA;
 }
 
+/* This is overriding the exisitng v-btn css from vuetify
+other css properties can be found in vuetify documentation*/
+.v-btn {
+  letter-spacing: normal;
+}
+
+.v-tab__slider {
+  height: 4px;
+}
+
 #app {
   margin: 0;
 }

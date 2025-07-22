@@ -35,27 +35,29 @@
           slider-color="#B8D3FF"
           class="tabs"
         >
-          <v-tab class="text-none" v-ripple="false" :value="1">Text</v-tab>
-          <v-tab class="text-none" v-ripple="false" :value="2">Upload Document</v-tab>
-          <v-tab class="text-none" v-ripple="false" :value="3">URL</v-tab>
+          <v-tab v-for="v in assignment.allowedContent" 
+            class="text-none"
+            v-ripple="false" 
+            :value="v">{{ v }}
+          </v-tab>
         </v-tabs>
 
         <p class="chooseText">Choose a submission type</p>
 
         <v-tabs-window class="tabWindow" v-model="tab">
           <v-tabs-window-item
-            v-for="n in 3"
-            :key="n"
-            :value="n"
+            v-for="(v, k) in assignment.allowedContent"
+            :key="k"
+            :value="v"
           >
-            <v-textarea v-if="n === 1" variant="solo" class="textArea"></v-textarea>
-            <v-file-upload v-else-if="n === 2" 
+            <v-textarea v-if="v === 'text'" variant="solo" class="textArea"></v-textarea>
+            <v-file-upload v-else-if="v === 'upload'" 
               density="comfortable" 
               variant="comfortable"
               title="Drag and drop your files here, or click to browse"
               icon="mdi-tray-arrow-up"
             ></v-file-upload>
-            <v-text-field v-else-if="n === 3" label="Enter URL" variant="outlined"></v-text-field>
+            <v-text-field v-else-if="v === 'url'" label="Enter URL" variant="outlined"></v-text-field>
           </v-tabs-window-item>
         </v-tabs-window>
 
@@ -84,26 +86,18 @@
 
 <script setup>
 import TeamMember from '../Dashboard/inner-cards/TeamCard/TeamMember.vue';
-import { ref, shallowRef } from 'vue'
+import { ref } from 'vue'
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
+import { formatDateMDY } from '@/utils/formatters';
 
-const density = shallowRef('default')
 const tab = ref(null)
 const props = defineProps({
   assignment: Object,
   teamMember: Object
 });
-
-function formatDateMDY(dateStr) {
-  const date = new Date(dateStr)
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const year = date.getFullYear().toString().slice(-2)
-  return `${month}/${day}/${year}`
-}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '@/variables.scss' as *;
 
 :deep(.v-btn__content),
@@ -190,3 +184,4 @@ function formatDateMDY(dateStr) {
   font-family: 'Poppins', sans-serif !important;
 }
 </style>
+
