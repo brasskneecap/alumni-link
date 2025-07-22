@@ -30,19 +30,28 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router';
+import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import { useStore } from 'vuex'
+
 export default {
   setup() {
-    const items = ref([
-      { id: 1, name: 'Dashboard', icon: 'mdi-view-dashboard-outline', page: "/"},
-      { id: 2, name: 'Assignments', icon: 'mdi-file-document-multiple-outline', page: "assignments"},
-      { id: 3, name: 'Calendar', icon: 'mdi-calendar-month-outline', page: "calendar" },
-      { id: 4, name: 'Messages', icon: 'mdi-message-text-outline', page: "messages" },
-      { id: 5, name: 'Blast', icon: 'mdi-bullhorn-outline', page: "blast" },
-      { id: 6, name: 'Groups', icon: 'mdi-account-group-outline', page: "groups" },
+    const store = useStore()
+    const user = computed(() => store.getters["user/user"]);
+
+    let items = ref([
+      { id: 1, name: 'Dashboard', icon: 'mdi-view-dashboard-outline', page: "/", role: "student"},
+      { id: 2, name: 'Assignments', icon: 'mdi-file-document-multiple-outline', page: "/assignments", role: "student"},
+      { id: 3, name: 'Assignments', icon: 'mdi-file-document-multiple-outline', page: "/assignments-overview", role: "mentor"},
+      { id: 4, name: 'Calendar', icon: 'mdi-calendar-month-outline', page: "/calendar", role: "all"},
+      { id: 5, name: 'Messages', icon: 'mdi-message-text-outline', page: "/messages", role: "all" },
+      { id: 6, name: 'Blast', icon: 'mdi-bullhorn-outline', page: "/blast", role: "student" },
+      { id: 7, name: 'Groups', icon: 'mdi-account-group-outline', page: "/groups", role: "student" },
     ])
 
+    console.log(user.value.role)
+    items = items.value.filter((item) => item.role === "all" || item.role.toLowerCase() === user.value.role.toLowerCase())
+    console.log(items)
     return {
       items
     }
