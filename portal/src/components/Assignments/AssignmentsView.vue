@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div>
       <h1 class="title">{{ assignment.name }}</h1>
       <TeamMember
@@ -36,7 +36,7 @@
           class="tabs"
         >
           <v-tab v-for="v in assignment.allowedContent" 
-            class="text-none"
+            class="tab text-none text-capitalize"
             v-ripple="false" 
             :value="v">{{ v }}
           </v-tab>
@@ -49,6 +49,8 @@
             v-for="(v, k) in assignment.allowedContent"
             :key="k"
             :value="v"
+            :transition="false"
+            :reverse-transition="false"
           >
             <v-textarea v-if="v === 'text'" variant="solo" class="textArea"></v-textarea>
             <v-file-upload v-else-if="v === 'upload'" 
@@ -57,22 +59,21 @@
               title="Drag and drop your files here, or click to browse"
               icon="mdi-tray-arrow-up"
             ></v-file-upload>
-            <v-text-field v-else-if="v === 'url'" label="Enter URL" variant="outlined"></v-text-field>
+            <v-text-field v-else-if="v === 'url'" label="Enter URL" variant="outlined" class="url"></v-text-field>
           </v-tabs-window-item>
         </v-tabs-window>
-
-        <v-btn 
-          variant="flat" 
-          v-ripple="false" 
-          class="submit 
-          text-none" 
-          color="#DEEAFC"
-          rounded="xl"
-        >
-          Submit Assignment
-        </v-btn>
-
       </v-card>
+      <v-btn 
+        variant="flat" 
+        v-ripple="false" 
+        class="submit 
+        text-none" 
+        color="#DEEAFC"
+        rounded="xl"
+        size="large"
+      >
+        Submit Assignment
+      </v-btn>
     </div>
   </div>
 
@@ -100,15 +101,14 @@ const props = defineProps({
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
 
-:deep(.v-btn__content),
-:deep(.v-tab__content) {
-  font-family: 'Poppins', sans-serif !important;
-}
-
 .v-btn:focus,
 .v-tab:focus {
   outline: none !important;
   box-shadow: none !important;
+}
+
+.container {
+  padding: 0 4rem;
 }
 
 .title {
@@ -127,7 +127,7 @@ const props = defineProps({
     font-size: 24px;
     color: $al-secondary-gray;
     gap: 0.3rem;
-    margin: 3rem 0 4rem 0;
+    margin: 2rem 0;
 
     .infoIcon {
       padding: 1.5rem;
@@ -151,30 +151,76 @@ const props = defineProps({
   margin-top: 1rem;
 }
 
+// tabs
+
 .tabs {
   margin: 1.5rem 0 2rem 0;
+}
+
+.tab {
   border-bottom: 1px solid $al-gray;
-  max-width: 22.5rem;
+}
+
+:deep(.v-tabs-window),
+:deep(.v-tabs-window-item),
+.tabWindow {
+  width: 40rem;
+  max-width: 100%;
+  overflow: visible;
+}
+
+:deep(.v-tab--selected) {
+  font-weight: 700 !important;
 }
 
 .chooseText {
   font-style: italic;
   font-weight: 300;
+  margin-bottom: 2rem;
 }
 
-.textArea {
-  margin: 0.1rem;
+// tab window
+
+:deep(.v-textarea) {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  overflow: visible;
+  margin-bottom: -2rem;
+}
+
+:deep(.v-textarea .v-field) {
+  box-shadow: 0 0 24px rgba(0,0,0,0.12);
+  width: 40rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+:deep(.v-card) {
+  width: 40rem;
+  max-width: 100%;
+  overflow: visible;
+  box-shadow: none;
 }
 
 .tabWindow {
-  margin-top: 2rem;
   width: 40rem;
+
+  .url {
+    margin-bottom: -2rem;
+  }
 }
 
 .subtitle {
   font-size: 16px;
   font-weight: 500;
   margin-top: 1.5rem;
+}
+
+.submit {
+  margin-top: 2rem;
 }
 
 .feedback {
