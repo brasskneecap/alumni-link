@@ -31,7 +31,7 @@ type Assignment struct {
 	Description    string    `firestore:"description" json:"description"`
 	GroupID        string    `firestore:"group_id" json:"groupId"`
 	MentorID       string    `firestore:"mentor_id" json:"mentorId"`
-	AllowedContent []string  `firestore:"allowed_content" json:"allowed_content"`
+	AllowedContent []string  `firestore:"allowed_content" json:"allowedContent"`
 	CreatedAt      time.Time `firestore:"created_at" json:"createdAt"`
 	DueDate        time.Time `firestore:"due_date" json:"dueDate"`
 }

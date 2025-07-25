@@ -1,11 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <div>
       <h1 class="title">{{ assignment.name }}</h1>
-      <div class="dueDate">
-        <v-icon icon="mdi-calendar-month-outline" size="24"/>
-        <p>Due {{ formatDateMDY(assignment.dueDate) }}</p>
-      </div>
       <TeamMember
         v-if="teamMember"
         :src="teamMember.profilePicture"
@@ -15,54 +11,253 @@
       />
       <p class="description">{{ assignment.description }}</p>
     </div>
+
+    <div class="infoContainer">
+      <div class="info">
+        <v-icon class="infoIcon al-icon" icon="mdi-calendar-month-outline" size="24"/>
+        <p>Due {{ formatDateMDY(assignment.dueDate) }}</p>
+      </div>
+      <div class="info">
+        <v-icon class="infoIcon al-icon" icon="mdi-folder-outline" size="24"/>
+        <div>
+          <p class="submitPar">Submission Type</p>
+          <p class="anyPar">Any</p>
+        </div>
+      </div>
+    </div>
+    
     <div>
-      <h2 class="subtitle">Submit Assignment</h2>
+      <div v-if="assignment.submission && !showResubmit">
+        <div>
+          <h2 class="subtitle">Submitted:</h2>
+          <span>{{ assignment.submission.content.text }}</span>
+        </div>
+         <v-btn 
+          variant="flat" 
+          v-ripple="false" 
+          class="submit 
+          text-none" 
+          color="#DEEAFC"
+          rounded="xl"
+          size="large"
+          @click="() => showResubmit = !showResubmit"
+          >
+            Resubmit Assignment
+          </v-btn>
+      </div>
+      <v-card v-else class="elevation-0">
+        <h2 class="subtitle">Submit Assignment</h2>
+        <v-tabs
+          v-model="tab"
+          align-tabs="start"
+          slider-color="#B8D3FF"
+          class="tabs"
+        >
+          <v-tab v-for="v in assignment.allowedContent" 
+            class="tab text-none text-capitalize"
+            v-ripple="false" 
+            :value="v">{{ v }}
+          </v-tab>
+        </v-tabs>
+
+        <p class="chooseText">Choose a submission type</p>
+
+        <v-tabs-window class="tabWindow" v-model="tab">
+          <v-tabs-window-item
+            v-for="(v, k) in assignment.allowedContent"
+            :key="k"
+            :value="v"
+            :transition="false"
+            :reverse-transition="false"
+          >
+            <v-textarea v-if="v === 'text'" variant="solo" class="textArea"></v-textarea>
+            <v-file-upload v-else-if="v === 'upload'" 
+              density="comfortable" 
+              variant="comfortable"
+              title="Drag and drop your files here, or click to browse"
+              icon="mdi-tray-arrow-up"
+            ></v-file-upload>
+            <v-text-field v-else-if="v === 'url'" label="Enter URL" variant="outlined" class="url"></v-text-field>
+          </v-tabs-window-item>
+        </v-tabs-window>
+        <div style="display: flex;">
+          <v-btn
+          variant="flat" 
+          v-ripple="false" 
+          class="submit text-none"
+          style="margin-right: 8px"
+          color="#DEEAFC"
+          rounded="xl"
+          size="large"
+          >
+            Submit Assignment
+          </v-btn>
+          <div v-if="assignment.submission && showResubmit">
+            <v-btn 
+              variant="flat" 
+              v-ripple="false" 
+              class="submit text-none" 
+              color="#DEEAFC"
+              rounded="xl"
+              size="large"
+              @click="() => showResubmit = !showResubmit"
+              >
+                Cancel Resubmit
+              </v-btn>
+          </div>
+        </div>
+      </v-card>
+      
     </div>
   </div>
+
   <div class="feedback">
     <v-btn variant="outlined" v-ripple="false" class="text-none">
-      Feedback
+      Message Alumni
     </v-btn>
   </div>
 </template>
 
+
 <script setup>
 import TeamMember from '../Dashboard/inner-cards/TeamCard/TeamMember.vue';
+import { ref } from 'vue'
+import { VFileUpload } from 'vuetify/labs/VFileUpload'
+import { formatDateMDY } from '@/utils/formatters';
+
+const tab = ref(null)
 const props = defineProps({
   assignment: Object,
   teamMember: Object
 });
-function formatDateMDY(dateStr) {
-  const date = new Date(dateStr)
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const year = date.getFullYear().toString().slice(-2)
-  return `${month}/${day}/${year}`
-}
+const showResubmit = ref(false)
 </script>
 
 <style lang="scss" scoped>
 @use '@/variables.scss' as *;
+
+.v-btn:focus,
+.v-tab:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.container {
+  padding: 0 4rem;
+}
+
 .title {
   font-size: 24px;
   font-weight: 700;
 }
-.dueDate {
+
+.infoContainer {
   display: flex;
-  align-items: center;
-  font-size: 24px;
-  color: $al-secondary-gray;
-  gap: 0.3rem;
-  margin: 0.5rem 0 1.8rem 0;
+  flex-direction: row;
+  gap: 4rem;
+
+    .info {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: $al-secondary-gray;
+    gap: 0.3rem;
+    margin: 2rem 0;
+
+    .infoIcon {
+      padding: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    .submitPar {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .typePar {
+      font-size: 18px;
+      font-weight: 500;
+      color: black;
+    }
+  }
 }
+
 .description {
-  margin-top: 2.3rem;
+  margin-top: 1rem;
 }
+
+// tabs
+
+.tabs {
+  margin: 1.5rem 0 2rem 0;
+}
+
+.tab {
+  border-bottom: 1px solid $al-gray;
+}
+
+:deep(.v-tabs-window),
+:deep(.v-tabs-window-item),
+.tabWindow {
+  width: 40rem;
+  max-width: 100%;
+  overflow: visible;
+}
+
+:deep(.v-tab--selected) {
+  font-weight: 700 !important;
+}
+
+.chooseText {
+  font-style: italic;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+// tab window
+
+:deep(.v-textarea) {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  overflow: visible;
+  margin-bottom: -2rem;
+}
+
+:deep(.v-textarea .v-field) {
+  box-shadow: 0 0 24px rgba(0,0,0,0.12);
+  width: 40rem;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+:deep(.v-card) {
+  width: 40rem;
+  max-width: 100%;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.tabWindow {
+  width: 40rem;
+
+  .url {
+    margin-bottom: -2rem;
+  }
+}
+
 .subtitle {
   font-size: 16px;
   font-weight: 500;
   margin-top: 1.5rem;
 }
+
+.submit {
+  margin-top: 2rem;
+}
+
 .feedback {
   display: flex;
   justify-content: flex-end;
@@ -70,3 +265,4 @@ function formatDateMDY(dateStr) {
   font-family: 'Poppins', sans-serif !important;
 }
 </style>
+
