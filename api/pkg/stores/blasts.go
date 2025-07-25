@@ -2,7 +2,6 @@ package stores
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -41,7 +40,6 @@ func GetBlasts(client *firestore.Client, groupId string) ([]Blast, error) {
 		}
 		blast.ID = doc.Ref.ID
 		blasts = append(blasts, blast)
-		fmt.Println("Blasts Found", blasts)
 	}
 
 	return blasts, nil

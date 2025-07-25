@@ -27,8 +27,26 @@
     </div>
     
     <div>
-      <h2 class="subtitle">Submit Assignment</h2>
-      <v-card class="elevation-0">
+      <div v-if="assignment.submission && !showResubmit">
+        <div>
+          <h2 class="subtitle">Submitted:</h2>
+          <span>{{ assignment.submission.content.text }}</span>
+        </div>
+         <v-btn 
+          variant="flat" 
+          v-ripple="false" 
+          class="submit 
+          text-none" 
+          color="#DEEAFC"
+          rounded="xl"
+          size="large"
+          @click="() => showResubmit = !showResubmit"
+          >
+            Resubmit Assignment
+          </v-btn>
+      </div>
+      <v-card v-else class="elevation-0">
+        <h2 class="subtitle">Submit Assignment</h2>
         <v-tabs
           v-model="tab"
           align-tabs="start"
@@ -62,18 +80,34 @@
             <v-text-field v-else-if="v === 'url'" label="Enter URL" variant="outlined" class="url"></v-text-field>
           </v-tabs-window-item>
         </v-tabs-window>
+        <div style="display: flex;">
+          <v-btn
+          variant="flat" 
+          v-ripple="false" 
+          class="submit text-none"
+          style="margin-right: 8px"
+          color="#DEEAFC"
+          rounded="xl"
+          size="large"
+          >
+            Submit Assignment
+          </v-btn>
+          <div v-if="assignment.submission && showResubmit">
+            <v-btn 
+              variant="flat" 
+              v-ripple="false" 
+              class="submit text-none" 
+              color="#DEEAFC"
+              rounded="xl"
+              size="large"
+              @click="() => showResubmit = !showResubmit"
+              >
+                Cancel Resubmit
+              </v-btn>
+          </div>
+        </div>
       </v-card>
-      <v-btn 
-        variant="flat" 
-        v-ripple="false" 
-        class="submit 
-        text-none" 
-        color="#DEEAFC"
-        rounded="xl"
-        size="large"
-      >
-        Submit Assignment
-      </v-btn>
+      
     </div>
   </div>
 
@@ -96,6 +130,7 @@ const props = defineProps({
   assignment: Object,
   teamMember: Object
 });
+const showResubmit = ref(false)
 </script>
 
 <style lang="scss" scoped>

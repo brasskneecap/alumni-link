@@ -40,7 +40,6 @@ func GetUserByEmail(client *firestore.Client, email string) (*User, error) {
 	}
 
 	user.ID = doc.Ref.ID // set the document ID if you want it
-	fmt.Println("User Found", user)
 	return &user, nil
 }
 
@@ -66,7 +65,6 @@ func GetUsers(client *firestore.Client, groups []string) ([]User, error) {
 		}
 		user.ID = doc.Ref.ID
 		users = append(users, user)
-		fmt.Println("Users Found", users)
 	}
 
 	return users, nil
