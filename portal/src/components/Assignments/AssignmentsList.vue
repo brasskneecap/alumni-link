@@ -1,6 +1,6 @@
 <template>
   <v-list lines="two" class="container">
-    <v-list-subheader class="header">WEEK 1</v-list-subheader>
+    <v-list-subheader class="header">MONTH 1</v-list-subheader>
     <template v-for="(item, i) in assignments" :key="i">
       <v-list-item v-ripple="false"
         @click="toggleAssignment(item)"
@@ -28,6 +28,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { formatDateMDY } from '@/utils/formatters';
+
 const emit = defineEmits(['show-assignment-view'])
 
 const store = useStore()
@@ -36,15 +38,6 @@ const assignments = computed(() => store.getters["assignments/assignments"])
 function toggleAssignment(item) {
   emit('show-assignment-view', item); 
 }
-
-function formatDateMDY(dateStr) {
-  const date = new Date(dateStr);
-  const month = String(date.getMonth() + 1);
-  const day = String(date.getDate());
-  const year = date.getFullYear().toString().slice(-2);
-  return `${month}/${day}/${year}`;
-}
-
 </script>
 
 <style lang="scss" scoped>
