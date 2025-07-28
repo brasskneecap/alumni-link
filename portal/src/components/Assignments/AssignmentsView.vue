@@ -28,17 +28,11 @@
 
 <script setup>
 import TeamMember from '../Dashboard/inner-cards/TeamCard/TeamMember.vue';
+import { formatDateMDY } from '@/utils/formatters'
 const props = defineProps({
   assignment: Object,
   teamMember: Object
 });
-function formatDateMDY(dateStr) {
-  const date = new Date(dateStr)
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const year = date.getFullYear().toString().slice(-2)
-  return `${month}/${day}/${year}`
-}
 </script>
 
 <style lang="scss" scoped>

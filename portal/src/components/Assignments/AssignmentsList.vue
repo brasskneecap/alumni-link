@@ -28,6 +28,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { formatDateMDY } from '@/utils/formatters'
 const emit = defineEmits(['show-assignment-view'])
 
 const store = useStore()
@@ -35,14 +36,6 @@ const assignments = computed(() => store.getters["assignments/assignments"])
 
 function toggleAssignment(item) {
   emit('show-assignment-view', item); 
-}
-
-function formatDateMDY(dateStr) {
-  const date = new Date(dateStr);
-  const month = String(date.getMonth() + 1);
-  const day = String(date.getDate());
-  const year = date.getFullYear().toString().slice(-2);
-  return `${month}/${day}/${year}`;
 }
 
 </script>
