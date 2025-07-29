@@ -28,8 +28,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { formatDateMDY } from '@/utils/formatters';
-
+import { formatDateMDY } from '@/utils/formatters'
 const emit = defineEmits(['show-assignment-view'])
 
 const store = useStore()
