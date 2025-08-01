@@ -6,50 +6,68 @@
     height="59.875rem"
     width="96.375rem"
   >
-    <template #header-right>
-      <router-link to="/assignments-overview/create">
-        <v-btn color="#4065DA">Add Assignment</v-btn>
-      </router-link>
-    </template>
+
+  <template #header-right>
+    <router-link to="/assignments-overview/create">
+      <v-btn color="#4065DA">Add Assignment</v-btn>
+    </router-link>     
+  </template>
 
     <template #content>
-      <v-list lines="two" class="container">
-        <v-list-subheader class="header">ASSIGNMENTS</v-list-subheader>
-        <template v-for="(item, i) in assignments" :key="i">
-          <v-list-item v-ripple="false"
-            @click="toggleAssignment(item)"
-            :value="item"
-            :date="item.dueDate"
-            color="primary"
-            rounded="lg"
-            class="border-b-sm"
-          >
-            <template #prepend>
-              <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20" ></v-icon>
-            </template>
-            <div>
-              <v-list-item-title class="assignment-title">{{ item.name }}</v-list-item-title>
-              <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
-            </div>
-          </v-list-item>
-        </template>
-      </v-list>
+      <div class="assignments-flex">
+        <v-list lines="two" class="container">
+          <v-list-subheader class="header">ASSIGNMENTS</v-list-subheader>
+          <template v-for="(item, i) in assignments" :key="i">
+            <v-list-item v-ripple="false"
+              @click="toggleAssignment(item)"
+              :value="item"
+              :date="item.dueDate"
+              color="primary"
+              rounded="lg"
+              class="border-b-sm"
+            >
+              <template #prepend>
+                <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20" ></v-icon>
+              </template>
+              <div>
+                <v-list-item-title class="assignment-title">{{ item.name }}</v-list-item-title>
+                <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
+              </div>
+            </v-list-item>
+          </template>
+        </v-list>
+        <FacultyAssignmentsView 
+          v-if="isVisible" 
+          :assignment="selectedAssignment" 
+          :teamMember="selectedTeamMember"
+        />
+      </div>
     </template>
   </ALCard>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import ALCard from '../../reusables/ALCard.vue'
 import { formatDateMDY } from '@/utils/formatters'
+import FacultyAssignmentsView from '../Faculty/FacultyAssignmentsView.vue'
 
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
 
+const isVisible = ref(false)
+const selectedAssignment = ref(null)
+const selectedTeamMember = ref({
+  profilePicture: '/path/to/image.jpg',
+  name: 'John Doe',
+  role: 'Developer',
+  school: 'Utah Valley University'
+});
+
 function toggleAssignment(item) {
-  emit('show-assignment-view', item); 
+  selectedAssignment.value = item
+  isVisible.value = true
 }
 </script>
 
@@ -65,14 +83,6 @@ function toggleAssignment(item) {
   flex-direction: row;
   gap: 2rem;
   width: 100%;
-}
-
-.assignments-flex > *:first-child {
-  flex: 0 0 32rem;
-}
-
-.assignments-flex > *:last-child {
-  flex: 1 1 0;
 }
 
 .container {
