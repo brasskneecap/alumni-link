@@ -25,12 +25,13 @@
         </div>
       </div>
     </div>
+    <span class="allowedContent">{{ assignment.allowedContent.join(', ') }}</span>
   </div>
 </template>
 
 <script setup>
 import TeamMember from '../../Dashboard/inner-cards/TeamCard/TeamMember.vue'
-import { ref } from 'vue'
+import { ref} from 'vue'
 import { VFileUpload } from 'vuetify/labs/VFileUpload'
 import { formatDateMDY } from '@/utils/formatters';
 
@@ -155,6 +156,10 @@ const props = defineProps({
   .url {
     margin-bottom: -2rem;
   }
+}
+
+.allowedContent {
+  text-transform: capitalize;
 }
 
 .subtitle {
