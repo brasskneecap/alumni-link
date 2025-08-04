@@ -16,6 +16,23 @@ const getStudentAssignments = async ({id, groupId}) => {
   }
 };
 
+const createStudentAssignments = async (assignmentInfo) => {
+  try {
+      console.log(assignmentInfo)
+      const request = {
+        url: `${BASE_URL}/createAssignment`,
+        body: JSON.stringify(assignmentInfo),
+      }
+      const response = utils.request(request)
+
+      return response;
+  } catch (error) {
+      console.error("Error fetching assignments:", error);
+      throw error;
+  }
+};
+
 export default {
-  getStudentAssignments
+  getStudentAssignments,
+  createStudentAssignments
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"AlumniLink/api/pkg/models"
 	"AlumniLink/api/pkg/stores"
 	"encoding/json"
 	"fmt"
@@ -20,6 +21,7 @@ func RegisterAssignmentsRoutes(router *mux.Router, h *AssignmentsHandler) {
 		w.Write([]byte("USER ENDPOINT"))
 	})
 	router.HandleFunc("/{groupId}/{id}", h.GetStudentAssignments).Methods("POST", "OPTIONS")
+	router.HandleFunc("/createAssignment", h.CreateAssignment).Methods("POST", "OPTIONS")
 }
 
 func (h *AssignmentsHandler) GetStudentAssignments(w http.ResponseWriter, r *http.Request) {
@@ -34,6 +36,34 @@ func (h *AssignmentsHandler) GetStudentAssignments(w http.ResponseWriter, r *htt
 
 	if err != nil {
 		http.Error(w, "Troule fetching assignments", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(assignments)
+}
+
+func (h *AssignmentsHandler) CreateAssignment(w http.ResponseWriter, r *http.Request) {
+	var assignment models.Assignment
+	// body, err := io.ReadAll(r.Body)
+	// if err != nil {
+	// 	http.Error(w, "Failed to read body", http.StatusBadRequest)
+	// 	return
+	// }
+
+	// fmt.Println("RAW BODY:", string(body)) // <== DEBUG PRINT
+	if err := json.NewDecoder(r.Body).Decode(&assignment); err != nil {
+		fmt.Println("err:", err)
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
+		return
+	}
+	fmt.Println("assignment", assignment)
+	// fmt.Printf("Student id  = %s", id)
+	// fmt.Println("Group ID: %s, Assignment ID: %s", groupId, id)
+	assignments, err := stores.CreateAssignment(r.Context(), h.Client, &assignment)
+
+	if err != nil {
+		http.Error(w, "Troule creating assignment", http.StatusNotFound)
 		return
 	}
 

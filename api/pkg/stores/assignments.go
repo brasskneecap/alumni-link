@@ -1,6 +1,7 @@
 package stores
 
 import (
+	"AlumniLink/api/pkg/models"
 	"context"
 	"fmt"
 	"time"
@@ -34,8 +35,18 @@ type Assignment struct {
 	AllowedContent []string  `firestore:"allowed_content" json:"allowedContent"`
 	CreatedAt      time.Time `firestore:"created_at" json:"createdAt"`
 	DueDate        time.Time `firestore:"due_date" json:"dueDate"`
+	PublishDate    time.Time `firestore:"publish_date" json:"publishDate"`
 }
 
+// {
+// "name":"test ",
+// "description":"test test test",
+// "groupId":"p28tMvMQBZ81cxjACsMx"
+// "mentorId":"p28tMvMQBZ81cxjACsMx",
+// "allowedContent":["Text"],
+// "dueDate":"2025-08-02T23:47:00.000Z",
+// "publishDate":"2025-07-31T06:00:00.000Z",
+// }
 type AssignmentWithSubmission struct {
 	Assignment
 	Submission *Submission `json:"submission,omitempty"`
@@ -112,4 +123,18 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 	}
 
 	return results, nil
+}
+
+func CreateAssignment(ctx context.Context, client *firestore.Client, assignment *models.Assignment) (*models.Assignment, error) {
+	if assignment.CreatedAt.IsZero() {
+		assignment.CreatedAt = time.Now()
+	}
+
+	docRef, _, err := client.Collection("assignments").Add(ctx, assignment)
+	if err != nil {
+		return nil, err
+	}
+
+	assignment.ID = docRef.ID
+	return assignment, nil
 }

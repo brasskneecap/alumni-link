@@ -120,7 +120,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import ALCard from '../../reusables/ALCard.vue'
+import { useStore } from 'vuex'
+import assignments from '../../../services/assignments'
 
+const store = useStore()
 const title = ref("")
 const description = ref("")
 
@@ -137,6 +140,22 @@ const createAssignment = () => {
   console.log(dueTime.value)
   console.log(publishDate.value)
   console.log(allowedContent.value)
+
+  // Split the time string
+  const [hours, minutes] = dueTime.value.split(":").map(Number);
+
+  // Set the time
+  dueDate.value.setHours(hours, minutes, 0, 0);
+  console.log(dueDate.value)
+
+  const assignmentInfo = {
+    name: title.value,
+    description: description.value,
+    dueDate: dueDate.value,
+    publishDate: publishDate.value,
+    allowedContent: allowedContent.value
+  }
+  store.dispatch('assignments/createStudentAssignment', assignmentInfo)
 }
 </script>
 
