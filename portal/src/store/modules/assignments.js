@@ -46,7 +46,7 @@ const actions = {
   async createStudentAssignment ({ commit, rootGetters }, assignmentInfo) {
     const user = rootGetters['user/user']
     assignmentInfo.mentorId = user.id
-    assignmentInfo.groupId = user.id
+    assignmentInfo.groupId = user.groups[0]
     assignmentInfo.createdAt = new Date()
 
     const ok = await AssignmentService.createStudentAssignments(assignmentInfo)
