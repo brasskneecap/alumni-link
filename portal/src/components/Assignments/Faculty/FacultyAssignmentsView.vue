@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">{{ assignment.name }}</h1>
+      <div class="header">
+        <h1 class="title">{{ assignment.name }}</h1>
+        <v-btn>Edit</v-btn>
+      </div>
       <TeamMember
         v-if="teamMember"
         :src="teamMember.profilePicture"
@@ -54,6 +57,11 @@ const props = defineProps({
 .container {
   padding: 0 4rem;
   min-width: 60rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between ;
 }
 
 .title {

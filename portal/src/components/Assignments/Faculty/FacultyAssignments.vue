@@ -8,15 +8,26 @@
   >
 
   <template #header-right>
-    <router-link to="/assignments-overview/create">
-      <v-btn color="#4065DA">Add Assignment</v-btn>
-    </router-link>     
+
   </template>
 
     <template #content>
       <div class="assignments-flex">
         <v-list lines="two" class="container">
-          <v-list-subheader class="header">ASSIGNMENTS</v-list-subheader>
+          <v-list-subheader class="header">
+            <div class="header-container">
+              <span>ASSIGNMENTS</span>
+              <div class="d-flex gap-2">
+                <router-link to="/assignments-overview/create">
+                  <v-icon 
+                    icon="mdi-plus" 
+                    size="24"
+                    color="#000000"
+                  />
+                </router-link>
+              </div>
+            </div>
+          </v-list-subheader>
           <template v-for="(item, i) in assignments" :key="i">
             <v-list-item v-ripple="false"
               @click="toggleAssignment(item)"
@@ -86,14 +97,25 @@ function toggleAssignment(item) {
 }
 
 .container {
-  max-width: 20rem;
+  width: 20rem;
   margin: 1.25rem 0 0 0.5rem;
 }
 
 .header {
   font-size: 16px;
-  font-weight: 600;  
+  font-weight: 600;
   color: black;
+}
+
+.header-container {
+  width: 18rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+  span {
+    align-content: center;
+  }
 }
 
 :deep(.al-icon.icon) {
