@@ -41,6 +41,16 @@ const actions = {
   async getStudentAssignments ({ commit }, {id, mentorId, groups}) {
     const assignments = await AssignmentService.getStudentAssignments({id, groupId: groups[0]})
     commit('SET_ASSIGNMENTS', assignments)
+  },
+
+  async createStudentAssignment ({ commit, rootGetters }, assignmentInfo) {
+    const user = rootGetters['user/user']
+    assignmentInfo.mentorId = user.id
+    assignmentInfo.groupId = user.groups[0]
+    assignmentInfo.createdAt = new Date()
+
+    const ok = await AssignmentService.createStudentAssignments(assignmentInfo)
+    // commit('SET_ASSIGNMENTS', assignments)
   }
 }
 

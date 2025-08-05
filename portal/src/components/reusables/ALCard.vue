@@ -13,6 +13,10 @@
       <div class="title-container">
         <h3 class="title">{{ title }}</h3>
       </div>
+      <div class="al-header-right">
+        <slot name="header-right">
+        </slot>
+      </div>
     </div>
 
     <slot name="content"></slot>
@@ -72,6 +76,9 @@ defineProps({
       font-weight: 700;
       padding: 0;
     }
+  }
+  .al-header-right {
+    margin-left: auto
   }
 }
 
