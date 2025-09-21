@@ -11,42 +11,89 @@
 
   </template>
 
-    <template #content>
-      <div class="assignments-flex">
-        <v-list lines="two" class="container">
-          <v-list-subheader class="header">
-            <div class="header-container">
-              <span>ASSIGNMENTS</span>
-              <div class="d-flex gap-2">
-                <router-link to="/assignments-overview/create">
-                  <v-icon 
-                    icon="mdi-plus" 
-                    size="24"
-                    color="#000000"
-                  />
-                </router-link>
-              </div>
-            </div>
-          </v-list-subheader>
+<template #content>
+  <div class="assignments-flex">
+    <v-list lines="two" class="container">
+      <v-list-group value="Assignments">
+        <template v-slot:activator="{ props, isOpen }">
+          <v-list-item 
+            v-bind="props" 
+            class="list-header"
+            v-ripple="false"
+            rounded="lg">
+            <template #prepend>
+              <span class="header-title">STUDENTS</span>
+              <v-icon size="24" class="pl-2">
+                {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              </v-icon>
+            </template>
+          </v-list-item>
+        </template>
+
           <template v-for="(item, i) in assignments" :key="i">
-            <v-list-item v-ripple="false"
+            <v-list-item
+              v-ripple="false"
               @click="toggleAssignment(item)"
               :value="item"
-              :date="item.dueDate"
-              color="primary"
+              :title="item.name"
               rounded="lg"
               class="border-b-sm"
             >
-              <template #prepend>
-                <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20" ></v-icon>
-              </template>
-              <div>
-                <v-list-item-title class="assignment-title">{{ item.name }}</v-list-item-title>
-                <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
-              </div>
             </v-list-item>
           </template>
-        </v-list>
+        </v-list-group>
+      </v-list>
+      </div>
+      
+  <div class="assignments-flex">
+    <v-list lines="two" class="container">
+      <v-list-group value="Assignments">
+        <template v-slot:activator="{ props, isOpen }">
+          <v-list-item 
+            v-bind="props" 
+            class="list-header"
+            v-ripple="false"
+            rounded="lg">
+            <template #prepend>
+              <span class="header-title">ASSIGNMENTS</span>
+              <v-icon size="24" class="pl-2">
+                {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              </v-icon>
+            </template>
+
+            <template #append>
+              <router-link to="/assignments-overview/create" class="add-button">
+                <v-icon 
+                  icon="mdi-plus" 
+                  size="24"
+                  color="#000000"
+                  class="pr-4"
+                />
+              </router-link>
+            </template>
+          </v-list-item>
+        </template>
+
+          <template v-for="(item, i) in assignments" :key="i">
+            <v-list-item
+              v-ripple="false"
+              @click="toggleAssignment(item)"
+              :value="item"
+              :title="item.name"
+              rounded="lg"
+              class="border-b-sm pl-4"
+            >
+              <template #prepend>
+                <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20"></v-icon>
+              </template>
+              <template #subtitle>
+                <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
+              </template>
+            </v-list-item>
+          </template>
+        </v-list-group>
+      </v-list>
+
         <FacultyAssignmentsView 
           v-if="isVisible" 
           :assignment="selectedAssignment" 
@@ -101,10 +148,18 @@ function toggleAssignment(item) {
   margin: 1.25rem 0 0 0.5rem;
 }
 
-.header {
-  font-size: 16px;
-  font-weight: 600;
-  color: black;
+:deep(.list-header) {
+  padding: 0.5rem 1rem;
+  
+  .header-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .add-button {
+    text-decoration: none;
+  }
 }
 
 .header-container {
@@ -118,10 +173,6 @@ function toggleAssignment(item) {
   }
 }
 
-:deep(.al-icon.icon) {
-  opacity: 1;
-}
-
 :deep(.assignment-title) {
   font-size: 16px;
   font-weight: 700;
@@ -131,6 +182,34 @@ function toggleAssignment(item) {
 
 :deep(.dueDate) {
   color: $al-secondary-gray;
+}
+
+
+
+:deep(.v-list-group) {
+  // Header styles
+  .v-list-group__header.v-list-item {
+    padding: 8px 0 !important;
+    
+    .v-list-item__prepend {
+      padding-left: 8px !important; // Adjust this for header icon spacing
+    }
+  }
+  
+  // List item styles
+  .v-list-group__items {
+    .v-list-item {
+      padding: 8px 0 !important;
+      
+      .v-list-item__content {
+        padding-left: -3rem !important; // Adjust this for content spacing
+      }
+      
+      .v-list-item__prepend {
+        padding-left: 16px !important; // Adjust this for icon spacing
+      }
+    }
+  }
 }
 
 :deep(.v-list-item__append) {
