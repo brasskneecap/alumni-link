@@ -2,6 +2,7 @@ package firebase
 
 import (
 	"context"
+	"log"
 	"os"
 	"sync"
 
@@ -20,6 +21,9 @@ var (
 func InitFirestore() (*firestore.Client, error) {
 	once.Do(func() {
 		creds := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
+		if creds == "" {
+			log.Println("GOOGLE_APPLICATION_CREDENTIALS is NOT set InitFirestore")
+		}
 
 		app, err := firebase.NewApp(projectCtx, nil, option.WithCredentialsFile(creds))
 		if err != nil {
