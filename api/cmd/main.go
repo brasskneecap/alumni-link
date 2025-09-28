@@ -11,8 +11,11 @@ import (
 )
 
 func main() {
-	// Set credential path if not using environment variables already
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "config/testcreds.json")
+	credsJSON := os.Getenv("GOOGLE_CREDENTIALS_JSON")
+	if credsJSON == "" {
+		// Set credential path if not using environment variables already
+		os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "config/testcreds.json")
+	}
 
 	// Initialize Firestore client
 	fsClient, err := firebase.InitFirestore()
