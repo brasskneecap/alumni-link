@@ -1,0 +1,10 @@
+[build]
+  base = "portal"
+  command = "npm run build"
+  publish = "portal/dist"
+
+# Make Vue Router history mode work
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
