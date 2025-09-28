@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	credsJSON := os.Getenv("GOOGLE_CREDENTIALS_JSON")
+	credsJSON := os.Getenv("GOOGLE_APPLICATION_CREDENTIALS")
 	if credsJSON == "" {
 		// Set credential path if not using environment variables already
 		os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "config/testcreds.json")
