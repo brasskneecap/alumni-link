@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/rs/cors"
 )
@@ -28,11 +29,22 @@ func main() {
 	router := routes.SetupRouter(fsClient)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173"}, // Your frontend origin
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
-		Debug:            true, // Turn this on for detailed logs
+		Debug:            true,
+
+		AllowOriginFunc: func(origin string) bool {
+			// Always allow local dev
+			if origin == "http://localhost:5173" {
+				return true
+			}
+			// Allow any Netlify subdomain
+			if strings.HasSuffix(origin, ".netlify.app") {
+				return true
+			}
+			return false
+		},
 	})
 
 	handler := c.Handler(router)
