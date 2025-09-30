@@ -141,7 +141,7 @@ function toggleAssignment(item) {
 .assignments-container {
   margin: 7.12rem 2rem 2.81rem 2rem;
   height: 59.875rem;
-  padding-top: 3rem;
+  // padding-top: 3rem;
 }
 
 .assignments-flex {
