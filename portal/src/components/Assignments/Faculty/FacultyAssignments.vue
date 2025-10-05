@@ -11,10 +11,8 @@
 
     <template #content>
       <div class="assignments-flex">
-        <!-- left column: stacked lists -->
         <div class="left-column">
-          <!-- STUDENTS group -->
-          <v-list lines="two" class="container">
+          <v-list lines="two" class="container students-list">
             <v-list-group value="Students">
               <template v-slot:activator="{ props, isOpen }">
                 <v-list-item
@@ -41,13 +39,11 @@
                   rounded="lg"
                   class="border-b-sm"
                 >
-                  <!-- keep content minimal or add slots as needed -->
                 </v-list-item>
               </template>
             </v-list-group>
           </v-list>
 
-          <!-- ASSIGNMENTS group -->
           <v-list lines="two" class="container">
             <v-list-group value="Assignments">
               <template v-slot:activator="{ props, isOpen }">
@@ -98,7 +94,6 @@
           </v-list>
         </div>
 
-        <!-- right column: details view -->
         <FacultyAssignmentsView
           v-if="isVisible"
           :assignment="selectedAssignment"
@@ -141,7 +136,6 @@ function toggleAssignment(item) {
 .assignments-container {
   margin: 7.12rem 2rem 2.81rem 2rem;
   height: 59.875rem;
-  // padding-top: 3rem;
 }
 
 .assignments-flex {
@@ -149,11 +143,10 @@ function toggleAssignment(item) {
   flex-direction: row;
   gap: 2rem;
   width: 100%;
-  align-items: flex-start; /* align top */
+  align-items: flex-start;
   height: 100%;
 }
 
-/* left column holds stacked lists */
 .left-column {
   display: flex;
   flex-direction: column;
@@ -162,13 +155,12 @@ function toggleAssignment(item) {
   margin-top: 1.25rem;
   align-self: flex-start;
 
-  max-height: calc(100% - 4rem); /* adjust the subtraction if the top offset is different */
+  max-height: calc(100% - 4rem);
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 0.5rem; /* room for scrollbar */
+  padding-right: 0.5rem;
 }
 
-/* Prevent inner v-list from introducing its own scroll or extra height */
 :deep(.left-column > .v-list),
 :deep(.left-column .v-list) {
   max-height: none !important;
@@ -177,12 +169,10 @@ function toggleAssignment(item) {
   padding: 0 !important;
 }
 
-/* Tweak inner item padding so content aligns when scrolled */
 :deep(.left-column .v-list .v-list-item) {
   padding-left: 8px !important;
 }
 
-/* keep view pinned to top and allow it to grow */
 .faculty-view {
   flex: 1 1 0;
   align-self: flex-start;
@@ -190,8 +180,6 @@ function toggleAssignment(item) {
   height: calc(100% - 1.25rem);
   overflow: auto; 
 }
-
-/* optional: prettier scrollbars (WebKit) */
 .left-column::-webkit-scrollbar {
   width: 10px;
 }
@@ -204,7 +192,6 @@ function toggleAssignment(item) {
   border: 2px solid transparent;
 }
 
-/* header and item styles (keep existing overrides) */
 :deep(.list-header) {
   padding: 0.5rem 1rem;
 
@@ -219,6 +206,14 @@ function toggleAssignment(item) {
   }
 }
 
+:deep(.v-list-group__header .v-list-group__header__append-icon) {
+  display: none !important;
+}
+
+:deep(.v-list-group__header .v-list-item__append .v-icon:not(.mdi-plus)) {
+  display: none !important;
+}
+
 :deep(.assignment-title) {
   font-size: 16px;
   font-weight: 700;
@@ -230,7 +225,6 @@ function toggleAssignment(item) {
   color: $al-secondary-gray;
 }
 
-/* Vuetify overrides (fine-tune as needed) */
 :deep(.v-list-group) {
   .v-list-group__header.v-list-item {
     padding: 8px 0 !important;
@@ -243,6 +237,7 @@ function toggleAssignment(item) {
   .v-list-group__items {
     .v-list-item {
       padding: 8px 0 !important;
+      margin-left: 1rem !important;
 
       .v-list-item__content {
         padding-left: 0 !important;
@@ -250,6 +245,16 @@ function toggleAssignment(item) {
 
       .v-list-item__prepend {
         padding-left: 8px !important;
+      }
+    }
+  }
+}
+
+:deep(.students-list) {
+  .v-list-group__items {
+    .v-list-item {
+      .v-list-item__content {
+        padding-left: 1rem !important;
       }
     }
   }
