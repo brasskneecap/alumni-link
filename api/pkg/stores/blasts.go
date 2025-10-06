@@ -21,7 +21,11 @@ type Blast struct {
 func GetBlasts(client *firestore.Client, groupId string) ([]Blast, error) {
 	ctx := context.Background()
 
-	blastsIter := client.Collection("blasts").Where("group_id", "==", groupId).Where("deleted_at", "==", nil).Documents(ctx)
+	blastsIter := client.Collection("blasts").
+		Where("group_id", "==", groupId).
+		Where("deleted_at", "==", nil).
+		OrderBy("created_at", firestore.Desc).
+		Documents(ctx)
 
 	var blasts []Blast
 	for {
