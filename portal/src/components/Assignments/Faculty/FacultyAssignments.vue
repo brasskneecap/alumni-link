@@ -30,10 +30,10 @@
                 </v-list-item>
               </template>
 
-              <template v-for="(item, i) in assignments" :key="'student-'+i">
+              <template v-for="(item, i) in students" :key="'student-'+i">
                 <v-list-item
                   v-ripple="false"
-                  @click="toggleAssignment(item)"
+                  @click="toggleStudent(item)"
                   :value="item"
                   :title="item.name"
                   rounded="lg"
@@ -95,11 +95,15 @@
         </div>
 
         <FacultyAssignmentsView
-          v-if="isVisible"
+          v-if="showView === 'assignments'"
           :assignment="selectedAssignment"
           :teamMember="selectedTeamMember"
           class="faculty-view"
         />
+
+        <div v-if="showView === 'student'">
+          <h1>STUDENT ASSIGNMENTS</h1>
+        </div>
       </div>
     </template>
   </ALCard>
@@ -114,9 +118,15 @@ import FacultyAssignmentsView from '../Faculty/FacultyAssignmentsView.vue'
 
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
+const students = computed(() => store.getters["users/students"])
 
-const isVisible = ref(false)
+console.log("facultyAssignments students", students.value)
+const showView = ref('')
+
+
 const selectedAssignment = ref(null)
+const selectedStudent = ref(null)
+
 const selectedTeamMember = ref({
   profilePicture: '/path/to/image.jpg',
   name: 'John Doe',
@@ -126,7 +136,14 @@ const selectedTeamMember = ref({
 
 function toggleAssignment(item) {
   selectedAssignment.value = item
-  isVisible.value = true
+  showView.value = 'assignments'
+}
+
+function toggleStudent(item) {
+  selectedStudent.value = item
+  // isVisible.value = true
+  console.log(`Show ${item.name} Assignments`)
+  showView.value = 'student'
 }
 </script>
 
