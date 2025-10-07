@@ -6,52 +6,104 @@
     height="59.875rem"
     width="96.375rem"
   >
-
-  <template #header-right>
-
-  </template>
+    <template #header-right>
+    </template>
 
     <template #content>
       <div class="assignments-flex">
-        <v-list lines="two" class="container">
-          <v-list-subheader class="header">
-            <div class="header-container">
-              <span>ASSIGNMENTS</span>
-              <div class="d-flex gap-2">
-                <router-link to="/assignments-overview/create">
-                  <v-icon 
-                    icon="mdi-plus" 
-                    size="24"
-                    color="#000000"
-                  />
-                </router-link>
-              </div>
-            </div>
-          </v-list-subheader>
-          <template v-for="(item, i) in assignments" :key="i">
-            <v-list-item v-ripple="false"
-              @click="toggleAssignment(item)"
-              :value="item"
-              :date="item.dueDate"
-              color="primary"
-              rounded="lg"
-              class="border-b-sm"
-            >
-              <template #prepend>
-                <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20" ></v-icon>
+        <div class="left-column">
+          <v-list lines="two" class="container students-list">
+            <v-list-group value="Students">
+              <template v-slot:activator="{ props, isOpen }">
+                <v-list-item
+                  v-bind="props"
+                  class="list-header"
+                  v-ripple="false"
+                  rounded="lg"
+                >
+                  <template #prepend>
+                    <span class="header-title">STUDENTS</span>
+                    <v-icon size="24" class="pl-2">
+                      {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                    </v-icon>
+                  </template>
+                </v-list-item>
               </template>
-              <div>
-                <v-list-item-title class="assignment-title">{{ item.name }}</v-list-item-title>
-                <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
-              </div>
-            </v-list-item>
-          </template>
-        </v-list>
-        <FacultyAssignmentsView 
-          v-if="isVisible" 
-          :assignment="selectedAssignment" 
+
+              <template v-for="(item, i) in students" :key="'student-'+i">
+                <v-list-item
+                  v-ripple="false"
+                  @click="toggleStudent(item)"
+                  :value="item"
+                  :title="item.name"
+                  rounded="lg"
+                  class="border-b-sm"
+                >
+                </v-list-item>
+              </template>
+            </v-list-group>
+          </v-list>
+
+          <v-list lines="two" class="container">
+            <v-list-group value="Assignments">
+              <template v-slot:activator="{ props, isOpen }">
+                <v-list-item
+                  v-bind="props"
+                  class="list-header"
+                  v-ripple="false"
+                  rounded="lg"
+                >
+                  <template #prepend>
+                    <span class="header-title">ASSIGNMENTS</span>
+                    <v-icon size="24" class="pl-2">
+                      {{ isOpen ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                    </v-icon>
+                  </template>
+
+                  <template #append>
+                    <router-link to="/assignments-overview/create" class="add-button">
+                      <v-icon
+                        icon="mdi-plus"
+                        size="24"
+                        color="#000000"
+                        class="pr-4"
+                      />
+                    </router-link>
+                  </template>
+                </v-list-item>
+              </template>
+
+              <template v-for="(item, i) in assignments" :key="'assign-'+i">
+                <v-list-item
+                  v-ripple="false"
+                  @click="toggleAssignment(item)"
+                  :value="item"
+                  :title="item.name"
+                  rounded="lg"
+                  class="border-b-sm pl-4"
+                >
+                  <template #prepend>
+                    <v-icon class="al-icon icon" icon="mdi-file-document-multiple-outline" size="20"></v-icon>
+                  </template>
+                  <template #subtitle>
+                    <span class="dueDate">Due {{ formatDateMDY(item.dueDate) }}</span>
+                  </template>
+                </v-list-item>
+              </template>
+            </v-list-group>
+          </v-list>
+        </div>
+
+        <FacultyAssignmentsView
+          v-if="showView === 'assignments'"
+          :assignment="selectedAssignment"
           :teamMember="selectedTeamMember"
+          class="faculty-view"
         />
+
+        <div v-if="showView === 'student'">
+          <h1>STUDENT ASSIGNMENTS</h1>
+        </div>
       </div>
     </template>
   </ALCard>
@@ -66,9 +118,15 @@ import FacultyAssignmentsView from '../Faculty/FacultyAssignmentsView.vue'
 
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
+const students = computed(() => store.getters["users/students"])
 
-const isVisible = ref(false)
+console.log("facultyAssignments students", students.value)
+const showView = ref('')
+
+
 const selectedAssignment = ref(null)
+const selectedStudent = ref(null)
+
 const selectedTeamMember = ref({
   profilePicture: '/path/to/image.jpg',
   name: 'John Doe',
@@ -78,7 +136,14 @@ const selectedTeamMember = ref({
 
 function toggleAssignment(item) {
   selectedAssignment.value = item
-  isVisible.value = true
+  showView.value = 'assignments'
+}
+
+function toggleStudent(item) {
+  selectedStudent.value = item
+  // isVisible.value = true
+  console.log(`Show ${item.name} Assignments`)
+  showView.value = 'student'
 }
 </script>
 
@@ -87,6 +152,7 @@ function toggleAssignment(item) {
 
 .assignments-container {
   margin: 7.12rem 2rem 2.81rem 2rem;
+  height: 59.875rem;
 }
 
 .assignments-flex {
@@ -94,32 +160,75 @@ function toggleAssignment(item) {
   flex-direction: row;
   gap: 2rem;
   width: 100%;
+  align-items: flex-start;
+  height: 100%;
 }
 
-.container {
-  width: 20rem;
-  margin: 1.25rem 0 0 0.5rem;
-}
-
-.header {
-  font-size: 16px;
-  font-weight: 600;
-  color: black;
-}
-
-.header-container {
-  width: 18rem;
+.left-column {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: center;
-  span {
-    align-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  width: 20rem;
+  margin-top: 1.25rem;
+  align-self: flex-start;
+
+  max-height: calc(100% - 4rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+}
+
+:deep(.left-column > .v-list),
+:deep(.left-column .v-list) {
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:deep(.left-column .v-list .v-list-item) {
+  padding-left: 8px !important;
+}
+
+.faculty-view {
+  flex: 1 1 0;
+  align-self: flex-start;
+  margin-top: 1.25rem;
+  height: calc(100% - 1.25rem);
+  overflow: auto; 
+}
+.left-column::-webkit-scrollbar {
+  width: 10px;
+}
+.left-column::-webkit-scrollbar-track {
+  background: transparent;
+}
+.left-column::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.12);
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+:deep(.list-header) {
+  padding: 0.5rem 1rem;
+
+  .header-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+  }
+
+  .add-button {
+    text-decoration: none;
   }
 }
 
-:deep(.al-icon.icon) {
-  opacity: 1;
+:deep(.v-list-group__header .v-list-group__header__append-icon) {
+  display: none !important;
+}
+
+:deep(.v-list-group__header .v-list-item__append .v-icon:not(.mdi-plus)) {
+  display: none !important;
 }
 
 :deep(.assignment-title) {
@@ -131,6 +240,41 @@ function toggleAssignment(item) {
 
 :deep(.dueDate) {
   color: $al-secondary-gray;
+}
+
+:deep(.v-list-group) {
+  .v-list-group__header.v-list-item {
+    padding: 8px 0 !important;
+
+    .v-list-item__prepend {
+      padding-left: 8px !important;
+    }
+  }
+
+  .v-list-group__items {
+    .v-list-item {
+      padding: 8px 0 !important;
+      margin-left: 1rem !important;
+
+      .v-list-item__content {
+        padding-left: 0 !important;
+      }
+
+      .v-list-item__prepend {
+        padding-left: 8px !important;
+      }
+    }
+  }
+}
+
+:deep(.students-list) {
+  .v-list-group__items {
+    .v-list-item {
+      .v-list-item__content {
+        padding-left: 1rem !important;
+      }
+    }
+  }
 }
 
 :deep(.v-list-item__append) {
