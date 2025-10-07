@@ -51,6 +51,7 @@ export default {
 
 .blast-container {
   gap: 1rem;
+  overflow-y: auto;
 }
 
 

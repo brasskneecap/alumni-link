@@ -9,7 +9,7 @@
 
     <template #content>
       <div class="upcoming-items">
-        <UpcomingItem v-for="assignment in assignments"
+        <UpcomingItem v-for="assignment in upcomingAssignments"
           :title="assignment.name"
           :date="formatDate(assignment.dueDate)"
           :tag="assignment.submission ? assignment.submission.status : 'Assignment'"
@@ -36,10 +36,14 @@ export default {
   },
   setup() {
     const store = useStore()
-    const assignments = computed(() => store.getters["assignments/assignments"]);
+    const upcomingAssignments = computed(() => {
+      const assignments = store.getters["assignments/assignments"]
+      return assignments.slice(-6);
+    });
 
+    
     return {
-      assignments,
+      upcomingAssignments,
       formatDate,
     }
   }
