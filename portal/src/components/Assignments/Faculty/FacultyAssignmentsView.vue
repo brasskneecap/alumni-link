@@ -1,48 +1,117 @@
 <template>
   <div class="container">
-    <div>
-      <div class="header">
+    <div class="header">
+      <div v-if="!isEditing">
         <h1 class="title">{{ assignment.name }}</h1>
-        <v-btn>Edit</v-btn>
       </div>
-      <TeamMember
-        v-if="teamMember"
-        :src="teamMember.profilePicture"
-        :name="teamMember.name"
-        :role="teamMember.role"
-        :description="`${teamMember.role} at ${teamMember.school}`"
-      />
-      <p class="description">{{ assignment.description }}</p>
+      <div v-else>
+        <v-text-field 
+          class="edit-title" 
+          v-model="editableAssignment.name" 
+          label="Assignment Name"
+          variant="outlined" />
+      </div>
+
+      <v-btn v-if="!isEditing" @click="startEditing">Edit</v-btn>
+      <div v-else class="d-flex gap-2">
+        <v-btn color="primary" @click="saveChanges">Save</v-btn>
+        <v-btn variant="text" @click="cancelEditing">Cancel</v-btn>
+      </div>
     </div>
 
+    <TeamMember
+      v-if="teamMember"
+      :src="teamMember.profilePicture"
+      :name="teamMember.name"
+      :role="teamMember.role"
+      :description="`${teamMember.role} at ${teamMember.school}`"
+    />
+
+
+    <p v-if="!isEditing" class="description">{{ assignment.description }}</p>
+    <v-textarea
+      v-else
+      class="edit-description"
+      v-model="editableAssignment.description"
+      label="Description"
+      rows="3"
+      variant="outlined"
+    >
+    </v-textarea>
+
+
     <div class="infoContainer">
-      <div class="info">
+      <div class="info mt-12">
         <v-icon class="infoIcon al-icon" icon="mdi-calendar-month-outline" size="24"/>
-        <p>Due {{ formatDateMDY(assignment.dueDate) }}</p>
+        <p v-if="!isEditing">Due {{ formatDateMDY(assignment.dueDate) }}</p>
+        <v-date-input
+          v-else
+          class="mt-5"
+          width="250"
+          v-model="editableAssignment.dueDate"
+          label="Due Date"
+          prepend-icon=""
+          append-inner-icon="mdi-calendar-outline"
+          variant="outlined"
+        ></v-date-input>
       </div>
-      <div class="info">
+
+      <div class="info mt-12">
         <v-icon class="infoIcon al-icon" icon="mdi-folder-outline" size="24"/>
         <div>
           <p class="submitPar">Submission Type</p>
-          <p class="anyPar">Any</p>
+          <p v-if="!isEditing" class="anyPar">{{ assignment.allowedContent.join(', ') }}</p>
+          <v-select
+            v-else            
+            v-model="editableAssignment.allowedContent"
+            :items="['text', 'upload', 'url']"
+            multiple
+            variant="outlined"
+          />
         </div>
       </div>
     </div>
-    <span class="allowedContent">{{ assignment.allowedContent.join(', ') }}</span>
   </div>
 </template>
 
-<script setup>
-import TeamMember from '../../Dashboard/inner-cards/TeamCard/TeamMember.vue'
-import { ref} from 'vue'
-import { VFileUpload } from 'vuetify/labs/VFileUpload'
-import { formatDateMDY } from '@/utils/formatters';
 
-const tab = ref(null)
+<script setup>
+import { ref, reactive } from 'vue'
+import TeamMember from '../../Dashboard/inner-cards/TeamCard/TeamMember.vue'
+import { formatDateMDY } from '@/utils/formatters'
+
 const props = defineProps({
   assignment: Object,
   teamMember: Object
-});
+})
+
+// local editing state
+const isEditing = ref(false)
+
+// create a reactive copy for editing
+const editableAssignment = reactive({})
+
+// create a helper to start editing
+const startEditing = () => {
+  Object.assign(editableAssignment, props.assignment)
+  isEditing.value = true
+}
+
+// helper to cancel edits
+const cancelEditing = () => {
+  isEditing.value = false
+  Object.keys(editableAssignment).forEach(k => delete editableAssignment[k])
+}
+
+// save handler (later you can connect this to your API)
+const saveChanges = async () => {
+  console.log('Submitting updated assignment:', editableAssignment)
+
+  // example: call your API here
+  // await api.updateAssignment(editableAssignment.id, editableAssignment)
+  
+  isEditing.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +136,11 @@ const props = defineProps({
 .title {
   font-size: 24px;
   font-weight: 700;
+}
+
+.edit-title {
+  font-size: 24px;
+  width: 500px;
 }
 
 .infoContainer {
@@ -104,6 +178,10 @@ const props = defineProps({
   margin-top: 1rem;
 }
 
+.edit-description {
+  margin-top: 3rem;
+}
+
 // tabs
 
 .tabs {
@@ -133,23 +211,6 @@ const props = defineProps({
 }
 
 // tab window
-
-:deep(.v-textarea) {
-  background: transparent;
-  box-shadow: none;
-  padding: 0;
-  overflow: visible;
-  margin-bottom: -2rem;
-}
-
-:deep(.v-textarea .v-field) {
-  box-shadow: 0 0 24px rgba(0,0,0,0.12);
-  width: 40rem;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
 
 :deep(.v-card) {
   width: 40rem;

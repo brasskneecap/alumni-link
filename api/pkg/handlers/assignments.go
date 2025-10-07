@@ -45,21 +45,13 @@ func (h *AssignmentsHandler) GetStudentAssignments(w http.ResponseWriter, r *htt
 
 func (h *AssignmentsHandler) CreateAssignment(w http.ResponseWriter, r *http.Request) {
 	var assignment models.Assignment
-	// body, err := io.ReadAll(r.Body)
-	// if err != nil {
-	// 	http.Error(w, "Failed to read body", http.StatusBadRequest)
-	// 	return
-	// }
 
-	// fmt.Println("RAW BODY:", string(body)) // <== DEBUG PRINT
 	if err := json.NewDecoder(r.Body).Decode(&assignment); err != nil {
 		fmt.Println("err:", err)
 		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		return
 	}
 	fmt.Println("assignment", assignment)
-	// fmt.Printf("Student id  = %s", id)
-	// fmt.Println("Group ID: %s, Assignment ID: %s", groupId, id)
 	assignments, err := stores.CreateAssignment(r.Context(), h.Client, &assignment)
 
 	if err != nil {

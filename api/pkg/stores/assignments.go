@@ -60,7 +60,7 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 	fmt.Println("groupId", groupId)
 	fmt.Println("client", client)
 	// 1. Fetch all assignments 9CrmcRDbrBW4gldZFiV1 9CrmcRDbrBW4gldZFiV1
-	assignmentsIter := client.Collection("assignments").Where("group_id", "==", groupId).Documents(ctx)
+	assignmentsIter := client.Collection("assignments").Where("group_id", "==", groupId).OrderBy("due_date", firestore.Asc).Documents(ctx)
 
 	var assignments []Assignment
 	for {
