@@ -134,13 +134,6 @@ const publishDate = ref(null)
 const allowedContent = ref([])
 
 const createAssignment = () => {
-  console.log(title.value)
-  console.log(description.value)
-  console.log(dueDate.value)
-  console.log(dueTime.value)
-  console.log(publishDate.value)
-  console.log(allowedContent.value)
-
   // Split the time string
   const [hours, minutes] = dueTime.value.split(":").map(Number);
 
