@@ -101,8 +101,14 @@
           class="faculty-view"
         />
 
-        <div v-if="showView === 'student'">
-          <h1>STUDENT ASSIGNMENTS</h1>
+        <div
+          v-if="showView === 'student'"
+          class="faculty-view">
+          <StudentAssignements
+          :studentId="selectedStudentAssignments.studentId"
+          :assignments="selectedStudentAssignments.assignments">
+          </StudentAssignements>
+          
         </div>
       </div>
     </template>
@@ -115,10 +121,12 @@ import { useStore } from 'vuex'
 import ALCard from '../../reusables/ALCard.vue'
 import { formatDateMDY } from '@/utils/formatters'
 import FacultyAssignmentsView from '../Faculty/FacultyAssignmentsView.vue'
+import StudentAssignements from './StudentAssignements.vue'
 
 const store = useStore()
 const assignments = computed(() => store.getters["assignments/assignments"])
 const students = computed(() => store.getters["users/students"])
+const groupAssignments = computed(() => store.getters["assignments/groupAssignments"])
 
 console.log("facultyAssignments students", students.value)
 const showView = ref('')
@@ -126,6 +134,7 @@ const showView = ref('')
 
 const selectedAssignment = ref(null)
 const selectedStudent = ref(null)
+const selectedStudentAssignments = ref(null)
 
 const selectedTeamMember = ref({
   profilePicture: '/path/to/image.jpg',
@@ -139,10 +148,12 @@ function toggleAssignment(item) {
   showView.value = 'assignments'
 }
 
-function toggleStudent(item) {
-  selectedStudent.value = item
+function toggleStudent(student) {
+  selectedStudent.value = student
   // isVisible.value = true
-  console.log(`Show ${item.name} Assignments`)
+  const studentAssignments = groupAssignments.value.find((val) => val.studentId === student.id)
+
+  selectedStudentAssignments.value = studentAssignments
   showView.value = 'student'
 }
 </script>

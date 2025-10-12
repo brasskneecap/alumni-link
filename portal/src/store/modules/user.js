@@ -1,4 +1,5 @@
 import UserService from '../../services/user'
+import { UserRoles} from '../../utils/enums'
 
 // initial state
 const state = () => ({
@@ -30,9 +31,15 @@ const actions = {
     const assignmentPayload = {
       id: state.user.id, 
       mentorId: state.user.mentorId,
-      groups: state.user.groups,
+      groupId: state.user.groups[0],
     }
 
+    // If user is a mentor
+    if (user.role === UserRoles.MENTOR) {
+      console.log('this is a mentor')
+      assignmentPayload.mentorId = assignmentPayload.id
+      await dispatch('assignments/getGroupAssignments', assignmentPayload, {root: true})
+    }
 
     await dispatch('assignments/getStudentAssignments', assignmentPayload, {root: true})
     await dispatch('blasts/getBlasts', state.user.groups, {root: true})

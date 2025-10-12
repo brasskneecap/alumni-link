@@ -1,8 +1,8 @@
 import UsersService from '../../services/users'
-
-const roles = {
-  student: "Student"
-}
+import { UserRoles} from '../../utils/enums'
+// const roles = {
+//   student: "Student"
+// }
 
 // initial state
 const state = () => ({
@@ -21,9 +21,8 @@ const actions = {
   async getUsers ({ commit, dispatch, state }, groups) {
     const users = await UsersService.getUsers(groups)
     commit('SET_USERS', users)
-    const students = users.filter((user) => user.role === roles.student)
+    const students = users.filter((user) => user.role === UserRoles.STUDENT)
     commit('SET_STUDENTS', students)
-
   }
 }
 

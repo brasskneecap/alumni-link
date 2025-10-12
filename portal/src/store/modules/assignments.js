@@ -28,19 +28,28 @@ import AssignmentService from '../../services/assignments'
   } 
 ]*/
 const state = () => ({
+  groupAssignments: [],
   assignments: []
 })
 
 // getters
 const getters = {
+  groupAssignments: (state) => state.groupAssignments,
   assignments: (state) => state.assignments,
 }
 
 // actions
 const actions = {
-  async getStudentAssignments ({ commit }, {id, mentorId, groups}) {
-    const assignments = await AssignmentService.getStudentAssignments({id, groupId: groups[0]})
+  async getGroupAssignments ({ commit }, {id, mentorId, groupId}) {
+    const groupAssignments = await AssignmentService.getGroupAssignments({mentorId, groupId: groupId})
+    commit('SET_GROUP_ASSIGNMENTS', groupAssignments)
+    console.log('getGroupAssignments', groupAssignments)
+  },
+
+  async getStudentAssignments ({ commit }, {id, mentorId, groupId}) {
+    const assignments = await AssignmentService.getStudentAssignments({id, groupId: groupId})
     commit('SET_ASSIGNMENTS', assignments)
+    console.log('assignments', assignments)
   },
 
   async createStudentAssignment ({ commit, rootGetters }, assignmentInfo) {
@@ -58,6 +67,10 @@ const actions = {
 const mutations = {
   SET_ASSIGNMENTS(state, assignments) {
     state.assignments = assignments
+  },
+  SET_GROUP_ASSIGNMENTS(state, groupAssignments) {
+    console.log("Group Assignments", groupAssignments)
+    state.groupAssignments = groupAssignments
   },
 }
 

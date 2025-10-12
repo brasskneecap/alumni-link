@@ -6,6 +6,7 @@ const getUserWithCredentials = async (credentials) => {
   try {
       const request = {
         url: `${BASE_URL}/login`,
+        method: 'POST',
         body: credentials,
       }
       const response = utils.request(request)

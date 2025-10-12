@@ -20,7 +20,8 @@ func RegisterAssignmentsRoutes(router *mux.Router, h *AssignmentsHandler) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("USER ENDPOINT"))
 	})
-	router.HandleFunc("/{groupId}/{id}", h.GetStudentAssignments).Methods("POST", "OPTIONS")
+	router.HandleFunc("/{groupId}/{id}", h.GetStudentAssignments).Methods("GET", "OPTIONS")
+	router.HandleFunc("/{groupId}/mentor/{mentorId}", h.GetGroupAssignments).Methods("GET", "OPTIONS")
 	router.HandleFunc("/createAssignment", h.CreateAssignment).Methods("POST", "OPTIONS")
 }
 
@@ -36,6 +37,21 @@ func (h *AssignmentsHandler) GetStudentAssignments(w http.ResponseWriter, r *htt
 
 	if err != nil {
 		http.Error(w, "Troule fetching assignments", http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(assignments)
+}
+
+func (h *AssignmentsHandler) GetGroupAssignments(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	groupId := vars["groupId"]
+	mentorId := vars["mentorId"]
+
+	assignments, err := stores.GetGroupAssignments(h.Client, groupId, mentorId)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Error fetching mentor assignments: %v", err), http.StatusInternalServerError)
 		return
 	}
 

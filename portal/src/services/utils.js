@@ -5,19 +5,19 @@ import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const request = async ({ url, body, options }) => {
+const request = async ({ url, method = 'GET', body, options }) => {
   try {
-      const response = await axios.post(
-        `${API_BASE_URL}/${url}`, // REQUEST URL
-        body, // BODY
-        {
-          ...options,
-          headers: { // Additional information for the request
-            "Content-Type": "application/json",
-          },        
-        }
-        
-      );
+    console.log('url', url, method)
+    const response = await axios({
+      url: `${API_BASE_URL}/${url}`,
+      method,                     // now method can be GET, POST, PUT, etc.
+      data: body,                 // axios uses `data` for request bodies
+      headers: {
+        "Content-Type": "application/json",
+        ...(options?.headers || {}),
+      },
+      ...options,                 // any other options (timeout, params, etc.)
+    });
 
       return response.data;
   } catch (error) {
