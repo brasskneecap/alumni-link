@@ -6,6 +6,7 @@ const getUsers = async (groups) => {
   try {
       const request = {
         url: `${BASE_URL}/users`,
+        method: 'POST',
         body: {groups},
       }
       const response = utils.request(request)

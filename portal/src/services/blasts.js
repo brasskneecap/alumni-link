@@ -6,6 +6,7 @@ const getBlasts = async ({groupId}) => {
   try {
       const request = {
         url: `${BASE_URL}/${groupId}/`,
+        method: 'POST',
       }
       const response = utils.request(request)
 

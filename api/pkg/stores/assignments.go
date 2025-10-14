@@ -38,6 +38,11 @@ type Assignment struct {
 	PublishDate    time.Time `firestore:"publish_date" json:"publishDate"`
 }
 
+type StudentAssignments struct {
+	StudentID   string                     `json:"studentId"`
+	Assignments []AssignmentWithSubmission `json:"assignments"`
+}
+
 // {
 // "name":"test ",
 // "description":"test test test",
@@ -57,8 +62,6 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 
 	var results []AssignmentWithSubmission
 
-	fmt.Println("groupId", groupId)
-	fmt.Println("client", client)
 	// 1. Fetch all assignments 9CrmcRDbrBW4gldZFiV1 9CrmcRDbrBW4gldZFiV1
 	assignmentsIter := client.Collection("assignments").Where("group_id", "==", groupId).OrderBy("due_date", firestore.Asc).Documents(ctx)
 
@@ -82,14 +85,12 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 	}
 
 	// 2. Fetch all submissions for the student (filter by studentID, optionally filter by assignmentIDs)
-	fmt.Println("submissions next")
 	submissionsIter := client.Collection("submissions").
 		Where("student_id", "==", studentId).
 		Documents(ctx)
 
 	submissionsMap := make(map[string]*Submission) // key = assignmentID
 
-	fmt.Println("submissions called")
 	count := 0
 	for {
 		doc, err := submissionsIter.Next()
@@ -108,11 +109,9 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 		}
 
 		// Map submissions by assignment ID
-		fmt.Println("Mapping Submissions")
 		submissionsMap[sub.AssignmentID] = &sub
 		count++
 	}
-	fmt.Printf("Found %d submissions\n", count)
 	// 3. Combine into AssignmentWithSubmission
 	for _, assignment := range assignments {
 		submission := submissionsMap[assignment.ID]
@@ -122,6 +121,100 @@ func GetStudentAssignments(client *firestore.Client, groupId string, studentId s
 		})
 	}
 
+	return results, nil
+}
+
+func GetGroupAssignments(client *firestore.Client, groupId, mentorId string) ([]StudentAssignments, error) {
+	ctx := context.Background()
+
+	// 1. Get all students in the mentor’s group(s)
+	usersIter := client.Collection("users").
+		Where("groups", "array-contains", groupId).
+		Where("mentor_id", "==", mentorId).
+		Documents(ctx)
+
+	var students []string
+	for {
+		doc, err := usersIter.Next()
+		if err != nil {
+			if err == iterator.Done {
+				break
+			}
+			return nil, fmt.Errorf("error fetching users: %w", err)
+		}
+		students = append(students, doc.Ref.ID)
+	}
+
+	if len(students) == 0 {
+		return []StudentAssignments{}, nil
+	}
+
+	// 2. Fetch all assignments for the group
+	assignmentsIter := client.Collection("assignments").
+		Where("group_id", "==", groupId).
+		OrderBy("due_date", firestore.Asc).
+		Documents(ctx)
+
+	var assignments []Assignment
+	for {
+		doc, err := assignmentsIter.Next()
+		if err != nil {
+			if err == iterator.Done {
+				break
+			}
+			return nil, fmt.Errorf("error fetching assignments: %w", err)
+		}
+
+		var assignment Assignment
+		if err := doc.DataTo(&assignment); err != nil {
+			return nil, err
+		}
+		assignment.ID = doc.Ref.ID
+		assignments = append(assignments, assignment)
+	}
+
+	// 3. Fetch all submissions for these students (across all assignments)
+	submissionsIter := client.Collection("submissions").
+		Where("student_id", "in", students).
+		Documents(ctx)
+
+	submissionsByStudent := make(map[string]map[string]*Submission) // studentID -> assignmentID -> submission
+	for {
+		doc, err := submissionsIter.Next()
+		if err != nil {
+			if err == iterator.Done {
+				break
+			}
+			return nil, fmt.Errorf("error fetching submissions: %w", err)
+		}
+		var sub Submission
+		if err := doc.DataTo(&sub); err != nil {
+			return nil, err
+		}
+		if submissionsByStudent[sub.StudentID] == nil {
+			submissionsByStudent[sub.StudentID] = make(map[string]*Submission)
+		}
+		submissionsByStudent[sub.StudentID][sub.AssignmentID] = &sub
+	}
+
+	// 4. Combine results per student
+	var results []StudentAssignments
+	for _, studentID := range students {
+		var studentAssignments []AssignmentWithSubmission
+		for _, assignment := range assignments {
+			sub := submissionsByStudent[studentID][assignment.ID]
+			studentAssignments = append(studentAssignments, AssignmentWithSubmission{
+				Assignment: assignment,
+				Submission: sub,
+			})
+		}
+		results = append(results, StudentAssignments{
+			StudentID:   studentID,
+			Assignments: studentAssignments,
+		})
+	}
+
+	fmt.Print("Get group assignments", results)
 	return results, nil
 }
 
