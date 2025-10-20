@@ -4,8 +4,10 @@
       :key="assignment.id"
       :title="assignment.name"
       :date="formatDate(assignment.dueDate)"
-      :tag="assignment.submission ? assignment.submission.status : 'Assignment'"
+      :tag="assignment.status"
+      :tagClass="getStatusClass(assignment.status)"
       :description="assignment.description"
+      :class="getStatusClass(assignment.status)"
     />
   </div>
 </template>
@@ -24,13 +26,42 @@ export default {
     const store = useStore()
     const studentAssignments = computed(() => {
       const assignments = store.getters["assignments/assignments"]
-      return assignments;
+      return assignments.map(assignment => ({
+        ...assignment,
+        status: getAssignmentStatus(assignment)
+      }));
     });
+
+    const getAssignmentStatus = (assignment) => {
+      const now = new Date();
+      const dueDate = new Date(assignment.dueDate);
+      
+      // Has submission
+      if (assignment.submission) {
+        if (assignment.submission.status === 'completed') {
+          return 'Completed';
+        }
+        const submittedDate = new Date(assignment.submission.submittedAt);
+        return submittedDate > dueDate ? 'Late' : 'Completed';
+      }
+      
+      return 'Pending';
+    }
+
+    const getStatusClass = (status) => {
+      const statusMap = {
+        'Completed': 'status-completed',
+        'Late': 'status-late',
+        'Pending': 'status-pending'
+      };
+      return statusMap[status] || '';
+    }
 
     
     return {
       studentAssignments,
       formatDate,
+      getStatusClass
     }
   }
 }
@@ -41,5 +72,26 @@ export default {
 
 .student-assignment-items {
   margin-top: 1rem;
+}
+
+.status-completed {
+  :deep(.tag) {
+    background-color: #6DD87F !important;
+    color: #115402 !important;
+  }
+}
+
+.status-late {
+  :deep(.tag) {
+    background-color: #FF3B4A !important;
+    color: #fff !important;
+  }
+}
+
+.status-pending {
+  :deep(.tag) {
+    background-color: #A5A5A5 !important;
+    color: #000 !important;
+  }
 }
 </style>
